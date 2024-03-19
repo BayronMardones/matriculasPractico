@@ -3,7 +3,7 @@ import { setupDB } from "./config/db.config.js";
 import cors from "cors";
 import studentRoutes from "./api/routes/studentRoutes.js";
 const app = express()
-const port = 3000
+const port = process.env.PORT;
 
 app.use(json());
 
