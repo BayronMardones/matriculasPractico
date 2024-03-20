@@ -6,6 +6,7 @@ const app = express()
 const port = process.env.PORT;
 
 app.use(json());
+app.use(cors());
 
 app.use("/api/students", studentRoutes);
 
