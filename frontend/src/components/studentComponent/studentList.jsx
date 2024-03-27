@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 
 const StudentList = ({ students, onDelete }) => {
     return (
-        <TableContainer component={Paper}>
+        <TableContainer component={Paper} >
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
                     <TableRow>
