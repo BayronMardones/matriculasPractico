@@ -1,7 +1,24 @@
 import Student from '../models/studentModel.js';
 
 export const createStudent = async (req, res) => {
-    const newStudent = new Student(req.body);
+    const {nombres, apellidoPaterno, apellidoMaterno, rut, telefonos, email, codigo, IdApoderado} = req.body;
+
+    //asignar apoderado por defecto en caso que no aplique
+    let idApoderado = IdApoderado
+    if (IdApoderado === "" || IdApoderado === null) {
+        idApoderado = "660e18f9b912d53277024f5a";
+    }
+    const newStudent = new Student({
+        nombres, 
+        apellidoPaterno, 
+        apellidoMaterno, 
+        rut, 
+        telefonos, 
+        email, 
+        codigo, 
+        IdApoderado: idApoderado
+    });
+
     try {
         await newStudent.save();
         res.status(201).json(newStudent);

@@ -1,15 +1,14 @@
 import { Schema, model } from "mongoose";
-
-const studentSchema = new Schema({
+const apoderadoSchema = new Schema({
     nombres: {
         type: String,
         required: true,
     },
-    apellidoPaterno: {
+    apellidos: {
         type: String,
         // required: true,
     },
-    apellidoMaterno: {
+    telefonos: {
         type: String,
         // required: true,
     },
@@ -17,25 +16,13 @@ const studentSchema = new Schema({
         type: String,
         // required: true,
     },
-    telefonos: {
-        type: [String],
-        // required: true,
-    },
     email: {
         type: String,
         // required: true,
-    },
-    codigo: {
-        type: String,
-        // required: true,
-    },
-    IdApoderado: {
-        type: Schema.Types.ObjectId, ref: 'Apoderado',
-        required: false
     },
 }, {
     timestamps: true,
     versionKey: false,
 });
 
-export default model("Student", studentSchema);
+export default model("Apoderado", apoderadoSchema);

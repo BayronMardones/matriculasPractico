@@ -15,11 +15,13 @@ const StudentList = ({ students, onDelete }) => {
                 <TableHead>
                     <TableRow>
                         <TableCell>NOMBRE</TableCell>
-                        <TableCell align="right">APELLIDO</TableCell>
-                        <TableCell align="right">APODO</TableCell>
-                        <TableCell align="right">FECHA NACIMIENTO</TableCell>
+                        <TableCell align="right">APELLIDO PATERNO</TableCell>
+                        <TableCell align="right">APELLIDO MATERNO</TableCell>
                         <TableCell align="right">RUT</TableCell>
+                        <TableCell align="right">TELEFONOS</TableCell>
                         <TableCell align="right">EMAIL</TableCell>
+                        <TableCell align="right">CODIGO</TableCell>
+                        <TableCell align="right">APODERADO</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -31,11 +33,13 @@ const StudentList = ({ students, onDelete }) => {
                             <TableCell component="th" scope="row">
                                 {student.nombres}
                             </TableCell>
-                            <TableCell align="right">{student.apellidos}</TableCell>
-                            <TableCell align="right">{student.apodo}</TableCell>
-                            <TableCell align="right">{student.fechaNacimiento}</TableCell>
+                            <TableCell align="right">{student.apellidoPaterno}</TableCell>
+                            <TableCell align="right">{student.apellidoMaterno}</TableCell>
                             <TableCell align="right">{student.rut}</TableCell>
+                            <TableCell align="right">{student.telefonos}</TableCell>
                             <TableCell align="right">{student.email}</TableCell>
+                            <TableCell align="right">{student.codigo}</TableCell>
+                            <TableCell align="right">{student.IdApoderado}</TableCell>
                             <TableCell>
                             <button onClick={() => onDelete(student._id)}>Eliminar</button>
                             </TableCell>
@@ -54,11 +58,12 @@ StudentList.propTypes = {
         PropTypes.shape({
             _id: PropTypes.string.isRequired,
             nombres: PropTypes.string.isRequired,
-            apellidos: PropTypes.string,
-            apodo: PropTypes.string,
-            fechaNacimiento: PropTypes.string,
+            apellidoPaterno: PropTypes.string,
+            apellidoMaterno: PropTypes.string,
             rut: PropTypes.string,
             email: PropTypes.string,
+            codigo: PropTypes.string,
+            IdApoderado: PropTypes.string,
         })
     ).isRequired,
     onDelete: PropTypes.func.isRequired,

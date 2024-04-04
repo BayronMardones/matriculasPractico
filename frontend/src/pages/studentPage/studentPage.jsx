@@ -8,11 +8,13 @@ const StudentPage = () => {
     const [students, setStudents] = useState([]);
     const [newStudent, setNewStudent] = useState({
         nombres: "",
-        apellidos: "",
-        apodo: "",
-        fechaNacimiento: "",
+        apellidoPaterno: "",
+        apellidoMaterno: "",
         rut: "",
-        email: ""
+        telefonos: "",
+        email: "",
+        codigo: "",
+        IdApoderado: ""
     });
 
     useEffect(() => {
@@ -60,7 +62,8 @@ const StudentPage = () => {
                     text: "The student was created successfully",
                     icon: "success"
                 });
-            } else {
+            } 
+            else {
                 throw new Error("Failed to create student");
             }
         } catch (error) {
