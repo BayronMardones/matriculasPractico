@@ -14,7 +14,10 @@ const StudentPage = () => {
         telefonos: "",
         email: "",
         codigo: "",
-        IdApoderado: ""
+        nombresApoderado: "",
+        apellidosApoderado: "",
+        telefonosApoderado: "",
+        emailApoderado: ""
     });
 
     useEffect(() => {
@@ -43,38 +46,26 @@ const StudentPage = () => {
             [e.target.name]: e.target.value
         });
     }
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        console.log(newStudent);
-        try {
-            const response = await fetch(`${apiUrl}/students/createStudent`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(newStudent)
-            });
-            if (response.ok) {
-                const result = await response.json();
-                setStudents([...students, result]);
-                Swal.fire({
-                    title: "Student created",
-                    text: "The student was created successfully",
-                    icon: "success"
-                });
-            } 
-            else {
-                throw new Error("Failed to create student");
-            }
-        } catch (error) {
-            console.log(error);
-            Swal.fire({
-                title: "Error!",
-                text: "Failed to create student.",
-                icon: "error"
-            });
-        }
+
+const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(newStudent);
+    try {
+        const response = await fetch(`${apiUrl}/students/createStudent`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newStudent)
+        });
+        const result = await response.json();
+        console.log(result);
+    } catch (error) {
+        console.log(error);
     }
+}
+            
+    
 
     const deleteStudent = async (id) => {
         try {
@@ -118,8 +109,6 @@ const StudentPage = () => {
             });
         }
     }
-
-
 
     return (
         <>

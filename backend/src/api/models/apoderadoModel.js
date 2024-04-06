@@ -12,10 +12,6 @@ const apoderadoSchema = new Schema({
         type: String,
         // required: true,
     },
-    rut: {
-        type: String,
-        // required: true,
-    },
     email: {
         type: String,
         // required: true,

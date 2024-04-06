@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 
 import StudentPage from './pages/studentPage/studentPage.jsx';
+import MatriculaPage from './pages/matriculaPage/matriculaPage.jsx';
 
 const Router = createBrowserRouter([
   {
@@ -15,6 +16,9 @@ const Router = createBrowserRouter([
   },
   {
     path: "/studentPage", element: <StudentPage />
+  },
+  {
+    path: "/matriculaPage", element: <MatriculaPage />
   }
 
 ]);

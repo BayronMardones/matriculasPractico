@@ -29,10 +29,23 @@ const studentSchema = new Schema({
         type: String,
         // required: true,
     },
-    IdApoderado: {
-        type: Schema.Types.ObjectId, ref: 'Apoderado',
-        required: false
+    nombresApoderado: {
+        type: String,
+        // required: true,
     },
+    apellidosApoderado: {
+        type: String,
+        // required: true,
+    },
+    telefonosApoderado: {
+        type: [String],
+        // required: true,
+    },
+    emailApoderado: {
+        type: String,
+        // required: true,
+    },
+    
 }, {
     timestamps: true,
     versionKey: false,
