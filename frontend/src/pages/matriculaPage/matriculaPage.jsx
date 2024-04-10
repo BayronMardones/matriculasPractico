@@ -12,7 +12,6 @@ const MatriculaPage = () => {
         IdStudent: "",
         IdCurso: ""
     });
-    const [students, setStudents] = useState([]);
     const [newStudent, setNewStudent] = useState({
         nombres: "",
         apellidoPaterno: "",
@@ -61,59 +60,46 @@ const MatriculaPage = () => {
         }
     };
 
-    // const handleInputChange = (e) => {
-    //     console.log(e.target.value);
-    //     setNewMatricula({
-    //         ...newMatricula,
-    //         [e.target.name]: e.target.value
-    //     });
-    // }
-
     const handleSubmit = async (e) => {
         e.preventDefault();
+        try {
+            // Creamos primero al estudiante
+            const responseStudent = await fetch(`${apiUrl}/students/createStudent`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newStudent)
+            });
+            const createdStudent = await responseStudent.json();
+            console.log(createdStudent._id);
     
-        // Omitimos la creación del estudiante y la matrícula en la API
-    
-        // Mostramos los datos por consola
-        console.log("Datos de la matrícula:", newMatricula);
-        console.log("Datos del estudiante:", newStudent);
+            // Si se creó correctamente el estudiante, asignamos su ID a IdStudent de newMatricula
+            if (createdStudent && createdStudent._id) {
+                console.log("ASIGNANDO ID");
+                const matriculaData = {
+                    ...newMatricula,
+                    IdStudent: createdStudent._id
+                };
+                console.log(matriculaData._id);
+                // Luego creamos la matrícula
+                const responseMatricula = await fetch(`${apiUrl}/matriculas/createMatricula`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(matriculaData)
+                });
+                const createdMatricula = await responseMatricula.json();
+                console.log('IMPRIMIR MATRICULA CREADA');
+                console.log(createdMatricula);
+            } else {
+                console.log('Error al crear la matricula');
+            }
+        } catch (error) {
+            console.log('Error al crear la matricula',error);
+        }
     };
-
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    //     console.log(newMatricula);
-    //     try {
-    //         // Creamos primero al estudiante
-    //         const responseStudent = await fetch(`${apiUrl}/students/createStudent`, {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Content-Type': 'application/json'
-    //             },
-    //             body: JSON.stringify(newStudent)
-    //         });
-    //         const createdStudent = await responseStudent.json();
-
-    //         // Luego asignamos el ID del estudiante creado a la matrícula
-    //         const matriculaData = {
-    //             ...newMatricula,
-    //             IdStudent: createdStudent.id
-    //         };
-
-
-    //         // Finalmente, creamos la matrícula
-    //         const responseMatricula = await fetch(`${apiUrl}/matriculas/createMatricula`, {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Content-Type': 'application/json'
-    //             },
-    //             body: JSON.stringify(matriculaData)
-    //         });
-    //         const createdMatricula = await responseMatricula.json();
-    //         console.log(createdMatricula);
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
 
     return (
         <div>
