@@ -1,24 +1,33 @@
 import { Schema, model } from "mongoose";
-const apoderadoSchema = new Schema({
-    nombres: {
+const userShema = new Schema({
+    nombreU: {
         type: String,
         required: true,
     },
-    apellidos: {
+    apellidoU: {
         type: String,
         // required: true,
     },
-    telefonos: {
+    rutU: {
         type: String,
         // required: true,
     },
-    email: {
+    emailU: {
         type: String,
         // required: true,
+    },
+    password: {
+        type: String,
+        required : true
+    },
+    rol: {
+        type: String,
+        required: true,
+        default: 'user'
     },
 }, {
     timestamps: true,
     versionKey: false,
 });
 
-export default model("Apoderado", apoderadoSchema);
+export default model("User", userShema);
