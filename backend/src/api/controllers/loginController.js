@@ -10,7 +10,7 @@ export const login = async (req, res) => {
 
         if (user.password !== password) return res.status(400).json({ message: "Credenciales Incorrectas" });
 
-        const token = jwt.sign({ emailUser: user.emailU }, process.env.JWT_SECRET, {
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
             expiresIn: '1h'
         });
         res.status(200).json({ result: user, token });
@@ -23,6 +23,11 @@ export const login = async (req, res) => {
 export const logout = async (req, res) => {
     const token = req.headers.authorization;
     if (!token) return res.status(400).json({ message: "No hay token" });
-    res.clearCookie("jwt", { httpOnly: true });
-    res.status(200).json({ message: "Sesion cerrada con exito" });
+    try {
+        res.clearCookie("jwt", { httpOnly: true });
+        res.status(200).json({ message: "Sesion cerrada con exito" });
+    } catch (error) {
+        console.error("Error al borrar la cookie:", error);
+        res.status(500).json({ message: "Error al cerrar sesion" });
+    }
 }

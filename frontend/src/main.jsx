@@ -5,27 +5,49 @@ import './index.css'
 import {
   createBrowserRouter,
   RouterProvider,
+  Navigate
 } from "react-router-dom";
 
 import StudentPage from './pages/studentPage/studentPage.jsx';
 import MatriculaPage from './pages/matriculaPage/matriculaPage.jsx';
+import HomePage from './pages/homePage.jsx';
+import Login from './pages/login.jsx';
+import { AuthProvider, useAuth } from './context/authContext.jsx';
+
+const PrivateRoute = ({ element }) => {
+	const { isAuthenticated } = useAuth();
+	return isAuthenticated ? element : <Navigate to="/" />;
+};
 
 const Router = createBrowserRouter([
   {
-    path: "/*", element: <App />
+    path: "/*", 
+    element: <App />
   },
   {
-    path: "/studentPage", element: <StudentPage />
+    path: "/", 
+    element: <Login />
   },
   {
-    path: "/matriculaPage", element: <MatriculaPage />
+    path: "/studentPage", 
+    element: <StudentPage />
+  },
+  {
+    path: "/matriculaPage", 
+    element: <MatriculaPage />
+  },
+  {
+    path: "/homePage", 
+    element: <PrivateRoute element={<HomePage />} />,
   }
 
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={Router}/>
+    <AuthProvider>
+      <RouterProvider router={Router} />
+    </AuthProvider>
   </React.StrictMode>,
 )
 
