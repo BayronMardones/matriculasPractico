@@ -14,6 +14,7 @@ import HomePage from './pages/homePage.jsx';
 import Login from './pages/login.jsx';
 import { AuthProvider, useAuth } from './context/authContext.jsx';
 
+
 const PrivateRoute = ({ element }) => {
 	const { isAuthenticated } = useAuth();
 	return isAuthenticated ? element : <Navigate to="/" />;
