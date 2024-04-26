@@ -2,26 +2,54 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import PropTypes from 'prop-types';
 import Grid from '@mui/material/Grid';
+import { useState, useEffect } from 'react';
+import MenuItem from '@mui/material/MenuItem';
+const apiUrl = import.meta.env.VITE_API_URL;
+
 
 const MatriculaForm = ({ handleSubmit, handleInputChange, newMatricula, newStudent }) => {
+
+    //busqueda de cursos para seleccionar en la matricula
+    const [cursos, setCursos] = useState([]);
+
+    useEffect(() => {
+        fetchCursos();
+    }, []);
+
+    const fetchCursos = async () => {
+        try {
+            const response = await fetch(`${apiUrl}/cursos/getCursos/`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            const result = await response.json();
+            setCursos(result);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <>
             <h2>Crear Matricula</h2>
             <h3>6611a13f6900043ee4fdc66f</h3>
             <Grid
                 container
+                item
                 xs={6}
                 component="form"
-                backgroundColor={'#0F243E'}
+                backgroundColor={'#D7DADE'}
                 onSubmit={handleSubmit}
                 sx={{
-                    '& .MuiTextField-root': { m: 1, width: '50%', backgroundColor: 'white'}
+                    '& .MuiTextField-root': { m: 1, width: '50%', backgroundColor: 'white' }
                 }}
                 noValidate
                 autoComplete="off"
             >
 
-                <Grid xs={6} textAlign={'center'}>
+                <Grid item xs={6} textAlign={'center'}>
                     <h2>DATOS ESTUDIANTE</h2>
                     <TextField
                         name="nombres"
@@ -77,15 +105,22 @@ const MatriculaForm = ({ handleSubmit, handleInputChange, newMatricula, newStude
                         size='small'
                         onChange={(e) => handleInputChange(e, 'newStudent')}
                     />
+
                     <TextField
                         name="IdCurso"
+                        select
+                        label="Curso"
                         value={newMatricula.IdCurso}
-                        required
-                        id="outlined-required"
-                        label="CURSO "
-                        size='small'
                         onChange={handleInputChange}
-                    />
+                        fullWidth
+                    >
+                        {cursos.map((curso) => (
+                            <MenuItem key={curso._id} value={curso._id}>
+                                {curso.nombreCurso}
+                            </MenuItem>
+                        ))}
+                    </TextField>
+
                     <TextField
                         name="horario"
                         value={newMatricula.horario}
@@ -106,7 +141,7 @@ const MatriculaForm = ({ handleSubmit, handleInputChange, newMatricula, newStude
                     />
 
                 </Grid>
-                <Grid xs={6} textAlign={'center'}>
+                <Grid item xs={6} textAlign={'center'}>
                     <h2>DATOS APODERADO</h2>
                     <TextField
                         name="nombresApoderado"
@@ -147,7 +182,7 @@ const MatriculaForm = ({ handleSubmit, handleInputChange, newMatricula, newStude
 
                 </Grid>
 
-                <Grid textAlign={'center'} xs={12}>
+                <Grid item textAlign={'center'} xs={12}>
                     <Button type='submit' variant="contained" color="success" size="large">CREAR</Button>
                 </Grid>
             </Grid>

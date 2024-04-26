@@ -4,10 +4,10 @@ import { useAuth } from "../context/authContext.jsx";
 import Box from '@mui/material/Box';
 import TextField from "@mui/material/TextField";
 import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
 import { Button } from "@mui/material";
 
 const Login = () => {
+    //funciones de autenticacion
     const navigate = useNavigate();
     const { login } = useAuth();
     const [emailU, setEmailU] = useState("");
@@ -86,6 +86,8 @@ const Login = () => {
                     >
                         Entrar
                     </Button>
+
+                    <Button onClick={()=> navigate("/testFile")}>pagina test</Button>
                 </Box>
             </Box>
         </Container>

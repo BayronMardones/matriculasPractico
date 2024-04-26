@@ -14,6 +14,7 @@ import HomePage from './pages/homePage.jsx';
 import Login from './pages/login.jsx';
 import { AuthProvider, useAuth } from './context/authContext.jsx';
 
+import TestFile from './pages/testFile.jsx';
 
 const PrivateRoute = ({ element }) => {
 	const { isAuthenticated } = useAuth();
@@ -40,6 +41,10 @@ const Router = createBrowserRouter([
   {
     path: "/homePage", 
     element: <PrivateRoute element={<HomePage />} />,
+  },
+  {
+    path: "/testFile", 
+    element: <TestFile />
   }
 
 ]);

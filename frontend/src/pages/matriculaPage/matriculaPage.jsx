@@ -63,7 +63,7 @@ const MatriculaPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            // Creamos primero al estudiante
+            // creacion del estudiante
             const responseStudent = await fetch(`${apiUrl}/students/createStudent`, {
                 method: 'POST',
                 headers: {
@@ -73,7 +73,7 @@ const MatriculaPage = () => {
             });
             const createdStudent = await responseStudent.json();
             console.log(createdStudent._id);
-    
+
             // Si se creó correctamente el estudiante, asignamos su ID a IdStudent de newMatricula
             if (createdStudent && createdStudent._id) {
                 console.log("ASIGNANDO ID");
@@ -82,7 +82,7 @@ const MatriculaPage = () => {
                     IdStudent: createdStudent._id
                 };
                 console.log(matriculaData._id);
-                // Luego creamos la matrícula
+                // creacion de matricula
                 const responseMatricula = await fetch(`${apiUrl}/matriculas/createMatricula`, {
                     method: 'POST',
                     headers: {
@@ -94,18 +94,21 @@ const MatriculaPage = () => {
                 console.log('IMPRIMIR MATRICULA CREADA');
                 console.log(createdMatricula);
             } else {
+                alert('Error al crear el estudiante');
                 console.log('Error al crear la matricula');
             }
         } catch (error) {
-            console.log('Error al crear la matricula',error);
+            console.log('Error al crear la matricula', error);
         }
     };
 
     return (
         <div>
             <h1>Matricula Page</h1>
-            <MatriculaList />
-            <MatriculaForm handleInputChange={handleInputChange} handleSubmit={handleSubmit} newMatricula={newMatricula} newStudent={newStudent}/>
+            <div className="centered-content">
+                <MatriculaList />
+            </div>
+            <MatriculaForm handleInputChange={handleInputChange} handleSubmit={handleSubmit} newMatricula={newMatricula} newStudent={newStudent} />
         </div>
     );
 }
