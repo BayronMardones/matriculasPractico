@@ -34,7 +34,6 @@ const MatriculaForm = ({ handleSubmit, handleInputChange, newMatricula, newStude
     return (
         <>
             <h2>Crear Matricula</h2>
-            <h3>6611a13f6900043ee4fdc66f</h3>
             <Grid
                 container
                 item
@@ -186,8 +185,6 @@ const MatriculaForm = ({ handleSubmit, handleInputChange, newMatricula, newStude
                     <Button type='submit' variant="contained" color="success" size="large">CREAR</Button>
                 </Grid>
             </Grid>
-            <h2>Crear Matricula</h2>
-            <h3>6611a13f6900043ee4fdc66f</h3>
         </>
 
     );

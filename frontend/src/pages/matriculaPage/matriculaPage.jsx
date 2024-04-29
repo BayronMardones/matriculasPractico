@@ -98,6 +98,7 @@ const MatriculaPage = () => {
                 console.log('Error al crear la matricula');
             }
         } catch (error) {
+            alert('Error al crear matricula');
             console.log('Error al crear la matricula', error);
         }
     };
