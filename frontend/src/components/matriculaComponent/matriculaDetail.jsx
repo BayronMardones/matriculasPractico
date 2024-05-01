@@ -21,15 +21,42 @@ const style = {
 
 //recibo id de matricula para buscar sus datos individuales
 
-const MatriculaDetail = ({id}) => {
+const MatriculaDetail = ({ matricula }) => {
   //funciones para abrir y cerrar modal
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const fetchMatricula = async (id) => {
+  //datos a mostrar en el modal
+  const [matriculaData, setMatriculaData] = React.useState([]);
+  const [studentData, setStudentData] = React.useState([]);
+  const [cursoData, setCursoData] = React.useState([]);
+
+  //hacer que fectchMatricula guarde los datos de la matricula en un estado para mostrarlos en el modal
+  React.useEffect(() => {
+    const fetchMatricula = async (id) => {
+      try {
+        const response = await fetch(`${apiUrl}/matriculas/getMatricula/${id}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        const result = await response.json();
+        setMatriculaData(result);
+        fetchStudent(result.IdStudent);
+        fetchCurso(result.IdCurso);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchMatricula(matricula._id);
+  },[ matricula._id]);
+
+  //hacer que fectchStudent guarde los datos del estudiante en un estado para mostrarlos en el modal
+  const fetchStudent = async (idStudent) => {
     try {
-      const response = await fetch(`${apiUrl}/matriculas/getMatricula/${id}`, {
+      const response = await fetch(`${apiUrl}/students/getStudent/${idStudent}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
@@ -37,7 +64,27 @@ const MatriculaDetail = ({id}) => {
       });
       const result = await response.json();
       console.log(result);
-    } catch (error) {
+      setStudentData(result);
+    }
+    catch (error) {
+      console.log(error);
+    }
+  }
+
+  //hacer que fectchCurso guarde los datos del curso en un estado para mostrarlos en el modal
+  const fetchCurso = async (idCurso) => {
+    try {
+      const response = await fetch(`${apiUrl}/cursos/getCurso/${idCurso}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      const result = await response.json();
+      console.log(result);
+      setCursoData(result);
+    }
+    catch (error) {
       console.log(error);
     }
   }
@@ -53,12 +100,23 @@ const MatriculaDetail = ({id}) => {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal {id}
+            Text in a modal
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+            Datos de matricula {matriculaData.IdStudent}
           </Typography>
-          <Button onClick={() => fetchMatricula(id)}>mostrar id matricula</Button>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            Datos de matricula ID {matricula._id}
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            Datos de estudiante {studentData.nombres}
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            Datos de curso {cursoData.nombreCurso}
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nihil ipsam, suscipit eius quibusdam quod iste ut sapiente itaque odit laboriosam molestias autem, voluptatum perferendis, nesciunt atque totam. Fugit, modi totam.
+          </Typography>
         </Box>
       </Modal>
     </div>

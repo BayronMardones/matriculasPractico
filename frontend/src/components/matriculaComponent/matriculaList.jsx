@@ -115,7 +115,7 @@ const MatriculaList = () => {
                             <TableCell align="right">{matricula.IdStudent}</TableCell>
                             <TableCell align="right">{matricula.IdCurso}</TableCell>
                             <TableCell>
-                                <MatriculaDetail id={matricula._id} />
+                                <MatriculaDetail matricula ={matricula} />
                             </TableCell>
                         </TableRow>
                     ))}
