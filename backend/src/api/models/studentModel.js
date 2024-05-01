@@ -18,7 +18,7 @@ const studentSchema = new Schema({
         // required: true,
     },
     telefonos: {
-        type: [String],
+        type: String,
         // required: true,
     },
     email: {
@@ -38,7 +38,7 @@ const studentSchema = new Schema({
         // required: true,
     },
     telefonosApoderado: {
-        type: [String],
+        type: String,
         // required: true,
     },
     emailApoderado: {

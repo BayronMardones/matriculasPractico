@@ -3,6 +3,9 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
+
 
 const apiUrl = import.meta.env.VITE_API_URL;
 // ${apiUrl}/matriculas/getMatricula/:id
@@ -12,8 +15,8 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'black',
+  width: 600,
+  bgcolor: '#D7DADE',
   border: '2px solid #000',
   boxShadow: 24,
   p: 4,
@@ -51,7 +54,7 @@ const MatriculaDetail = ({ matricula }) => {
       }
     }
     fetchMatricula(matricula._id);
-  },[ matricula._id]);
+  }, [matricula._id]);
 
   //hacer que fectchStudent guarde los datos del estudiante en un estado para mostrarlos en el modal
   const fetchStudent = async (idStudent) => {
@@ -102,21 +105,123 @@ const MatriculaDetail = ({ matricula }) => {
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Text in a modal
           </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Datos de matricula {matriculaData.IdStudent}
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Datos de matricula ID {matricula._id}
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Datos de estudiante {studentData.nombres}
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Datos de curso {cursoData.nombreCurso}
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nihil ipsam, suscipit eius quibusdam quod iste ut sapiente itaque odit laboriosam molestias autem, voluptatum perferendis, nesciunt atque totam. Fugit, modi totam.
-          </Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <h2>Estudiante</h2>
+              <TextField
+                id="standard-disabled"
+                label="Nombres"
+                defaultValue={studentData.nombres ? studentData.nombres : "-"}
+                variant="standard"
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+              <TextField
+                id="standard-disabled"
+                label="Apellido Paterno"
+                defaultValue={matriculaData.apellidoPaterno ? matriculaData.apellidoPaterno : "-"}
+                variant="standard"
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+              <TextField
+                id="standard-disabled"
+                label="Apellido Materno"
+                defaultValue={studentData.apellidoMaterno ? studentData.apellidoMaterno : "-"}
+                variant="standard"
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+              <TextField
+                id="standard-disabled"
+                label="Nombres"
+                defaultValue={studentData.rut ? studentData.rut : "-"}
+                variant="standard"
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+              <TextField
+                id="standard-disabled"
+                label="telefonos"
+                defaultValue={studentData.telefonos ? studentData.telefonos : "-"}
+                variant="standard"
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+              <TextField
+                id="standard-disabled"
+                label="Nombres"
+                defaultValue={studentData.email ? studentData.email : "-"}
+                variant="standard"
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+              <TextField
+                id="standard-disabled"
+                label="Curso"
+                defaultValue={cursoData.nombreCurso ? cursoData.nombreCurso : "-"}
+                variant="standard"
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+              <TextField
+                id="standard-disabled"
+                label="Trimestre"
+                defaultValue={matriculaData.horario ? matriculaData.horario : "-"}
+                variant="standard"
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+              <TextField
+                id="standard-disabled"
+                label="Trimestre"
+                defaultValue={matriculaData.trimestre ? matriculaData.trimestre : "-"}
+                variant="standard"
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <h2>Apoderado</h2>
+              <TextField
+                id="standard-disabled"
+                label="Nombres Apoderado"
+                defaultValue={studentData.nombresApoderado ? studentData.nombresApoderado : "-"}
+                variant="standard"
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+              <TextField
+                id="standard-disabled"
+                label="Telefonos Apoderado"
+                defaultValue={studentData.telefonosApoderado ? studentData.telefonosApoderado : "-"}
+                variant="standard"
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+
+              <TextField
+                id="standard-disabled"
+                label="Correo Apoderado"
+                defaultValue={studentData.emailApoderado ? studentData.emailApoderado : "-"}
+                variant="standard"
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+            </Grid>
+          </Grid>
         </Box>
       </Modal>
     </div>

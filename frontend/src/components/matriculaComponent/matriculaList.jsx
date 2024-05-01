@@ -107,13 +107,13 @@ const MatriculaList = () => {
                             <TableCell component="th" scope="row">
                                 {matricula._id}
                             </TableCell>
-                            <TableCell align="inherit">{studentData[matricula.IdStudent]?.nombres}</TableCell>
-                            <TableCell align="right">{studentData[matricula.IdStudent]?.rut}</TableCell>
-                            <TableCell align="right">{studentData[matricula.IdStudent]?.telefonos}</TableCell>
+                            <TableCell align="inherit">{studentData[matricula.IdStudent]?.nombres || "-"}</TableCell>
+                            <TableCell align="right">{studentData[matricula.IdStudent]?.rut || "-"}</TableCell>
+                            <TableCell align="right">{studentData[matricula.IdStudent]?.telefonos || "-"}</TableCell>
                             <TableCell align="right">{studentData[matricula.IdStudent]?.email}</TableCell>
                             <TableCell align="right">{cursoData[matricula.IdCurso]?.nombreCurso}</TableCell>
-                            <TableCell align="right">{matricula.IdStudent}</TableCell>
-                            <TableCell align="right">{matricula.IdCurso}</TableCell>
+                            <TableCell align="right">{matricula.horario || "-"}</TableCell>
+                            <TableCell align="right">{matricula.fechaInscripcion || "-"}</TableCell>
                             <TableCell>
                                 <MatriculaDetail matricula ={matricula} />
                             </TableCell>
