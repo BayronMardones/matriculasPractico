@@ -41,7 +41,7 @@ const Login = () => {
     return (
 
         <Container component="main" maxWidth="xs">
-            <h1>SISTEMA DE MATRICULAS</h1>
+            <h1>PAGINA EN CONSTRUCCIÓN</h1>
             <Box
                 sx={{
                     marginTop: 8,

@@ -21,6 +21,24 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
+//estilos del textfield
+const readOnlyInputProps = {
+  readOnly: true,
+};
+
+//REVISAR ESTILOS
+const textFieldStyle = {
+  "& .MuiInputBase-root": {
+    color: "warning",
+  },
+  "& .Mui-focused": {
+    color: "error",
+  },
+};
+
+const estiloH2 = {
+  color: "black",
+};
 
 //recibo id de matricula para buscar sus datos individuales
 
@@ -102,124 +120,114 @@ const MatriculaDetail = ({ matricula }) => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
+          <Typography id="modal-modal-title" variant="h6" component="h2" style={estiloH2}>
+            Detalle de Matricula
           </Typography>
           <Grid container spacing={2}>
             <Grid item xs={6}>
-              <h2>Estudiante</h2>
+            <h2 style={estiloH2}>Estudiante</h2>
               <TextField
                 id="standard-disabled"
                 label="Nombres"
                 defaultValue={studentData.nombres ? studentData.nombres : "-"}
                 variant="standard"
-                InputProps={{
-                  readOnly: true,
-                }}
+                InputProps={readOnlyInputProps}
+                sx={textFieldStyle}
               />
               <TextField
                 id="standard-disabled"
                 label="Apellido Paterno"
-                defaultValue={matriculaData.apellidoPaterno ? matriculaData.apellidoPaterno : "-"}
+                defaultValue={studentData.apellidoPaterno ? studentData.apellidoPaterno : "-"}
                 variant="standard"
-                InputProps={{
-                  readOnly: true,
-                }}
+                InputProps={readOnlyInputProps}
               />
               <TextField
                 id="standard-disabled"
                 label="Apellido Materno"
                 defaultValue={studentData.apellidoMaterno ? studentData.apellidoMaterno : "-"}
                 variant="standard"
-                InputProps={{
-                  readOnly: true,
-                }}
+                InputProps={readOnlyInputProps}
               />
               <TextField
                 id="standard-disabled"
-                label="Nombres"
+                label="RUT"
                 defaultValue={studentData.rut ? studentData.rut : "-"}
                 variant="standard"
-                InputProps={{
-                  readOnly: true,
-                }}
+                InputProps={readOnlyInputProps}
               />
               <TextField
                 id="standard-disabled"
                 label="telefonos"
                 defaultValue={studentData.telefonos ? studentData.telefonos : "-"}
                 variant="standard"
-                InputProps={{
-                  readOnly: true,
-                }}
+                InputProps={readOnlyInputProps}
               />
               <TextField
                 id="standard-disabled"
-                label="Nombres"
+                label="Email"
                 defaultValue={studentData.email ? studentData.email : "-"}
                 variant="standard"
-                InputProps={{
-                  readOnly: true,
-                }}
+                InputProps={readOnlyInputProps}
               />
               <TextField
                 id="standard-disabled"
                 label="Curso"
                 defaultValue={cursoData.nombreCurso ? cursoData.nombreCurso : "-"}
                 variant="standard"
-                InputProps={{
-                  readOnly: true,
-                }}
+                InputProps={readOnlyInputProps}
               />
               <TextField
                 id="standard-disabled"
-                label="Trimestre"
+                label="Horario"
                 defaultValue={matriculaData.horario ? matriculaData.horario : "-"}
                 variant="standard"
-                InputProps={{
-                  readOnly: true,
-                }}
+                InputProps={readOnlyInputProps}
               />
               <TextField
                 id="standard-disabled"
                 label="Trimestre"
                 defaultValue={matriculaData.trimestre ? matriculaData.trimestre : "-"}
                 variant="standard"
-                InputProps={{
-                  readOnly: true,
-                }}
+                InputProps={readOnlyInputProps}
               />
             </Grid>
             <Grid item xs={6}>
-              <h2>Apoderado</h2>
+              <h2 style={estiloH2}>Apoderado</h2>
               <TextField
                 id="standard-disabled"
                 label="Nombres Apoderado"
                 defaultValue={studentData.nombresApoderado ? studentData.nombresApoderado : "-"}
                 variant="standard"
-                InputProps={{
-                  readOnly: true,
-                }}
+                InputProps={readOnlyInputProps}
               />
               <TextField
                 id="standard-disabled"
                 label="Telefonos Apoderado"
                 defaultValue={studentData.telefonosApoderado ? studentData.telefonosApoderado : "-"}
                 variant="standard"
-                InputProps={{
-                  readOnly: true,
-                }}
+                InputProps={readOnlyInputProps}
               />
 
               <TextField
                 id="standard-disabled"
-                label="Correo Apoderado"
+                label="Email Apoderado"
                 defaultValue={studentData.emailApoderado ? studentData.emailApoderado : "-"}
                 variant="standard"
-                InputProps={{
-                  readOnly: true,
-                }}
+                InputProps={readOnlyInputProps}
               />
+            </Grid>
+            <Grid item xs={12}>
+              <Grid container spacing={2}>
+                <Grid item>
+                  <Button variant="contained" color="primary">Editar Matricula</Button>
+                </Grid>
+                <Grid item>
+                  <Button variant="contained" color="primary">Imprimir Matricula</Button>
+                </Grid>
+                <Grid item>
+                  <Button variant="contained" color="primary">Accion extra</Button>
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
         </Box>

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import MatriculaForm from "../../components/matriculaComponent/matriculaForm.jsx";
 import MatriculaList from "../../components/matriculaComponent/matriculaList.jsx";
 const apiUrl = import.meta.env.VITE_API_URL;
+import ButtonAppBar from "../../components/appBar.jsx";
 
 const MatriculaPage = () => {
     const [matriculas, setMatriculas] = useState([]);
@@ -105,6 +106,7 @@ const MatriculaPage = () => {
 
     return (
         <div>
+            <ButtonAppBar />
             <h1>Matricula Page</h1>
             <div className="centered-content">
                 <MatriculaList />
