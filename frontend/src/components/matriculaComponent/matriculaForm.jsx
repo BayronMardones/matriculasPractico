@@ -51,6 +51,15 @@ const MatriculaForm = ({ handleSubmit, handleInputChange, newMatricula, newStude
                 <Grid item xs={6} textAlign={'center'}>
                     <h2>DATOS ESTUDIANTE</h2>
                     <TextField
+                        name="rut"
+                        value={newStudent.rut}
+                        required
+                        id="outlined-required"
+                        label="Rut"
+                        size='small'
+                        onChange={(e) => handleInputChange(e, 'newStudent')}
+                    />
+                    <TextField
                         name="nombres"
                         value={newStudent.nombres}
                         required
@@ -74,15 +83,6 @@ const MatriculaForm = ({ handleSubmit, handleInputChange, newMatricula, newStude
                         required
                         id="outlined-required"
                         label="Apellido Materno"
-                        size='small'
-                        onChange={(e) => handleInputChange(e, 'newStudent')}
-                    />
-                    <TextField
-                        name="rut"
-                        value={newStudent.rut}
-                        required
-                        id="outlined-required"
-                        label="Rut"
                         size='small'
                         onChange={(e) => handleInputChange(e, 'newStudent')}
                     />
