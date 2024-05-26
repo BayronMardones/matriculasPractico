@@ -103,26 +103,56 @@ const MatriculaDetail = ({ matricula }) => {
     setIsReadOnly(!isReadOnly);
   };
 
-  //ACTUALIZAR SOLO EL HORARIO
-  const handleHorarioChange = (e) => {
-    setMatriculaData(prevData => ({ 
-      ...prevData, 
-      horario: e.target.value 
-    }));
+  //guardar datos de los campos modificados
+  const handleInputChange = (event, formType) => {
+    const { name, value } = event.target;
+    if (formType === 'student') {
+      setStudentData(prevData => ({
+        ...prevData,
+        [name]: value
+      }));
+    } else if (formType === 'matricula') {
+      setMatriculaData(prevData => ({
+        ...prevData,
+        [name]: value
+      }));
+    }
+    // const handleHorarioChange = (event) => {
+    //     setMatriculaData(prevData => ({
+    //         ...prevData,
+    //         horario: event.target.value
+    //     }));
+    // };
   };
 
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
+      //actualizar student
+      const responseStudent = await fetch(`${apiUrl}/students/${studentData._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(studentData)
+      });
+      if (!responseStudent.ok) {
+        throw new Error('Error al actualizar el estudiante');
+      }
+
+      //actualizar matricula
       const response = await fetch(`${apiUrl}/matriculas/${matricula._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          horario: matriculaData.horario
-        })
+        body: JSON.stringify(matriculaData)
       });
+
+      if (!response.ok) {
+        throw new Error('Error al actualizar la matricula');
+      }
+
       const result = await response.json();
       alert('Matricula actualizada');
       toggleReadOnly();
@@ -150,46 +180,52 @@ const MatriculaDetail = ({ matricula }) => {
             <Grid item xs={6}>
               <h2 style={estiloH2}>Estudiante</h2>
               <TextField
-                id="standard-disabled"
+                name='rut'
                 label="RUT"
-                defaultValue={studentData.rut ? studentData.rut : "-"}
+                value={studentData.rut || ""}
                 variant="standard"
                 InputProps={{ readOnly: isReadOnly, }}
+                onChange={(e) => handleInputChange(e, 'student')}
               />
               <TextField
-                id="standard-disabled"
+                name='nombres'
                 label="Nombres"
-                defaultValue={studentData.nombres ? studentData.nombres : "-"}
+                value={studentData.nombres || ""}
                 variant="standard"
                 InputProps={{ readOnly: isReadOnly, }}
+                onChange={(e) => handleInputChange(e, 'student')}
               />
               <TextField
-                id="standard-disabled"
+                name='apellidoPaterno'
                 label="Apellido Paterno"
-                defaultValue={studentData.apellidoPaterno ? studentData.apellidoPaterno : "-"}
+                value={studentData.apellidoPaterno || ""}
                 variant="standard"
                 InputProps={{ readOnly: isReadOnly, }}
+                onChange={(e) => handleInputChange(e, 'student')}
               />
               <TextField
-                id="standard-disabled"
+                name='apellidoMaterno'
                 label="Apellido Materno"
-                defaultValue={studentData.apellidoMaterno ? studentData.apellidoMaterno : "-"}
+                value={studentData.apellidoMaterno || ""}
                 variant="standard"
                 InputProps={{ readOnly: isReadOnly, }}
+                onChange={(e) => handleInputChange(e, 'student')}
               />
               <TextField
-                id="standard-disabled"
-                label="telefonos"
-                defaultValue={studentData.telefonos ? studentData.telefonos : "-"}
+                name="telefonos"
+                label="Telefonos"
+                value={studentData.telefonos || ""}
                 variant="standard"
-                InputProps={{ readOnly: isReadOnly, }}
+                InputProps={{ readOnly: isReadOnly }}
+                onChange={(e) => handleInputChange(e, 'student')}
               />
               <TextField
-                id="standard-disabled"
+                name="email"
                 label="Email"
-                defaultValue={studentData.email ? studentData.email : "-"}
+                value={studentData.email || ""}
                 variant="standard"
-                InputProps={{ readOnly: isReadOnly, }}
+                InputProps={{ readOnly: isReadOnly }}
+                onChange={(e) => handleInputChange(e, 'student')}
               />
               <TextField
                 id="standard-disabled"
@@ -199,44 +235,48 @@ const MatriculaDetail = ({ matricula }) => {
                 InputProps={{ readOnly: isReadOnly, }}
               />
               <TextField
-                id="standard-disabled"
+                name="horario"
                 label="Horario"
                 value={matriculaData.horario || ""}
-                onChange={handleHorarioChange}
                 variant="standard"
                 InputProps={{ readOnly: isReadOnly, }}
+                onChange={(e)=>handleInputChange(e, 'matricula')}
               />
               <TextField
-                id="standard-disabled"
+                name="trimestre"
                 label="Trimestre"
-                defaultValue={matriculaData.trimestre ? matriculaData.trimestre : "-"}
+                value={matriculaData.trimestre || ""}
                 variant="standard"
                 InputProps={{ readOnly: isReadOnly, }}
+                onChange={(e)=>handleInputChange(e, 'matricula')}
               />
             </Grid>
             <Grid item xs={6}>
               <h2 style={estiloH2}>Apoderado</h2>
               <TextField
-                id="standard-disabled"
+                name="nombresApoderado"
                 label="Nombres Apoderado"
-                defaultValue={studentData.nombresApoderado ? studentData.nombresApoderado : "-"}
+                value={studentData.nombresApoderado || ""}
                 variant="standard"
-                InputProps={{ readOnly: isReadOnly, }}
+                InputProps={{ readOnly: isReadOnly }}
+                onChange={(e) => handleInputChange(e, 'student')}
               />
               <TextField
-                id="standard-disabled"
+                name="telefonosApoderado"
                 label="Telefonos Apoderado"
-                defaultValue={studentData.telefonosApoderado ? studentData.telefonosApoderado : "-"}
+                value={studentData.telefonosApoderado || ""}
                 variant="standard"
-                InputProps={{ readOnly: isReadOnly, }}
+                InputProps={{ readOnly: isReadOnly }}
+                onChange={(e) => handleInputChange(e, 'student')}
               />
 
               <TextField
-                id="standard-disabled"
+                name="emailApoderado"
                 label="Email Apoderado"
-                defaultValue={studentData.emailApoderado ? studentData.emailApoderado : "-"}
+                value={studentData.emailApoderado || ""}
                 variant="standard"
-                InputProps={{ readOnly: isReadOnly, }}
+                InputProps={{ readOnly: isReadOnly }}
+                onChange={(e) => handleInputChange(e, 'student')}
               />
             </Grid>
             <Grid item xs={12}>
