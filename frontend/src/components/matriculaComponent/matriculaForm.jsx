@@ -44,7 +44,7 @@ const MatriculaForm = ({ handleSubmit, handleInputChange, newMatricula, newStude
                 sx={{
                     '& .MuiTextField-root': { m: 1, width: '50%', backgroundColor: 'white' }
                 }}
-                noValidate
+                // noValidate
                 autoComplete="off"
             >
 
@@ -58,6 +58,9 @@ const MatriculaForm = ({ handleSubmit, handleInputChange, newMatricula, newStude
                         label="Rut"
                         size='small'
                         onChange={(e) => handleInputChange(e, 'newStudent')}
+                        inputProps={{
+                            pattern: "\\d{2}\\.\\d{3}\\.\\d{3}-[\\dkK]"
+                        }}  
                     />
                     <TextField
                         name="nombres"

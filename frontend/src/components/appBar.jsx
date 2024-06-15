@@ -30,7 +30,7 @@ const ButtonAppBar = () => {
                         <TemporaryDrawer />
                     </MenuIcon>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        News
+                        APP MATRICULAS
                     </Typography>
                     <Button color="inherit">Login</Button>
                 </Toolbar>

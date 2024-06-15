@@ -5,8 +5,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import TablePagination from '@mui/material/TablePagination';
 import { useEffect, useState } from "react";
 import MatriculaDetail from './matriculaDetail';
+import * as React from 'react';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -17,6 +19,9 @@ const MatriculaList = () => {
     const [matriculas, setMatriculas] = useState([]);
     const [studentData, setStudentData] = useState([]);
     const [cursoData, setCursoData] = useState([]);
+
+    const [page, setPage] = React.useState(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
     useEffect(() => {
         const fetchMatriculas = async () => {
@@ -99,7 +104,7 @@ const MatriculaList = () => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {matriculas.map((matricula) => (
+                    {matriculas.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((matricula) => (
                         <TableRow
                             key={matricula._id}
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -115,12 +120,27 @@ const MatriculaList = () => {
                             <TableCell align="right">{matricula.horario || "-"}</TableCell>
                             <TableCell align="right">{matricula.fechaInscripcion || "-"}</TableCell>
                             <TableCell>
-                                <MatriculaDetail matricula ={matricula} />
+                                <MatriculaDetail matricula={matricula} />
                             </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
+                
             </Table>
+            <TablePagination
+                    rowsPerPageOptions={[10, 25, 100]}
+                    component="div"
+                    count={matriculas.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onPageChange={(event, newPage) => {
+                        setPage(newPage);
+                    }}
+                    onRowsPerPageChange={(event) => {
+                        setRowsPerPage(parseInt(event.target.value, 10));
+                        setPage(0);
+                    }}
+                />
         </TableContainer>
     );
 }

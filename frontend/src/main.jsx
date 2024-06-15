@@ -12,9 +12,12 @@ import StudentPage from './pages/studentPage/studentPage.jsx';
 import MatriculaPage from './pages/matriculaPage/matriculaPage.jsx';
 import HomePage from './pages/homePage.jsx';
 import Login from './pages/login.jsx';
+import CursoPage from './pages/cursoPage/cursoPage.jsx';
 import { AuthProvider, useAuth } from './context/authContext.jsx';
 
 import TestFile from './pages/testFile.jsx';
+
+import PropTypes from 'prop-types';
 
 const PrivateRoute = ({ element }) => {
 	const { isAuthenticated } = useAuth();
@@ -45,6 +48,10 @@ const Router = createBrowserRouter([
   {
     path: "/testFile", 
     element: <TestFile />
+  },
+  {
+    path: "/cursoPage", 
+    element: <CursoPage />
   }
 
 ]);
@@ -58,3 +65,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 )
 
 export default Router;
+
+//validacion de props
+PrivateRoute.propTypes = {
+  element: PropTypes.element.isRequired,
+};

@@ -6,6 +6,8 @@ import Modal from '@mui/material/Modal';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import PropTypes from 'prop-types';
+import MenuItem from '@mui/material/MenuItem';
+
 
 const apiUrl = import.meta.env.VITE_API_URL;
 // ${apiUrl}/matriculas/getMatricula/:id
@@ -38,6 +40,7 @@ const MatriculaDetail = ({ matricula }) => {
   const [matriculaData, setMatriculaData] = React.useState([]);
   const [studentData, setStudentData] = React.useState([]);
   const [cursoData, setCursoData] = React.useState([]);
+  const [cursos, setCursos] = React.useState([]);
 
   //boton para permitir escritura en los campos
   const [isReadOnly, setIsReadOnly] = React.useState(true);
@@ -62,6 +65,25 @@ const MatriculaDetail = ({ matricula }) => {
     }
     fetchMatricula(matricula._id);
   }, [matricula._id]);
+
+  //busqueda de cursos para seleccionar en la matricula
+  React.useEffect(() => {
+    const fetchCursos = async () => {
+      try {
+        const response = await fetch(`${apiUrl}/cursos/getCursos/`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        const result = await response.json();
+        setCursos(result);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchCursos();
+  }, []);
 
   //hacer que fectchStudent guarde los datos del estudiante en un estado para mostrarlos en el modal
   const fetchStudent = async (idStudent) => {
@@ -117,12 +139,6 @@ const MatriculaDetail = ({ matricula }) => {
         [name]: value
       }));
     }
-    // const handleHorarioChange = (event) => {
-    //     setMatriculaData(prevData => ({
-    //         ...prevData,
-    //         horario: event.target.value
-    //     }));
-    // };
   };
 
   const handleUpdate = async (e) => {
@@ -228,19 +244,28 @@ const MatriculaDetail = ({ matricula }) => {
                 onChange={(e) => handleInputChange(e, 'student')}
               />
               <TextField
-                id="standard-disabled"
-                label="Curso"
-                defaultValue={cursoData.nombreCurso ? cursoData.nombreCurso : "-"}
-                variant="standard"
-                InputProps={{ readOnly: isReadOnly, }}
-              />
+                  name="IdCurso"
+                  select
+                  label="Curso"
+                  value={matriculaData.IdCurso || ""}
+                  onChange={(e) => handleInputChange(e, 'matricula')}
+                  variant="standard"
+                  InputProps={{ readOnly: isReadOnly }}
+                >
+                  {cursos.map((curso) => (
+                    <MenuItem key={curso._id} value={curso._id}>
+                      {curso.nombreCurso}
+                    </MenuItem>
+                  ))}
+                </TextField>
+
               <TextField
                 name="horario"
                 label="Horario"
                 value={matriculaData.horario || ""}
                 variant="standard"
                 InputProps={{ readOnly: isReadOnly, }}
-                onChange={(e)=>handleInputChange(e, 'matricula')}
+                onChange={(e) => handleInputChange(e, 'matricula')}
               />
               <TextField
                 name="trimestre"
@@ -248,7 +273,7 @@ const MatriculaDetail = ({ matricula }) => {
                 value={matriculaData.trimestre || ""}
                 variant="standard"
                 InputProps={{ readOnly: isReadOnly, }}
-                onChange={(e)=>handleInputChange(e, 'matricula')}
+                onChange={(e) => handleInputChange(e, 'matricula')}
               />
             </Grid>
             <Grid item xs={6}>

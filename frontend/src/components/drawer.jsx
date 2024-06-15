@@ -10,36 +10,55 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
+import { useNavigate } from "react-router-dom";
+import ChecklistRtlIcon from '@mui/icons-material/ChecklistRtl';
 
 
-export default function TemporaryDrawer({open, onClose}) {
+export default function TemporaryDrawer({ open, onClose }) {
+    const navigate = useNavigate();
 
     const DrawerList = (
-        <Box sx={{ width: 250 }} role="presentation"onClick={onClose}>
+        <Box sx={{ width: 250 }} role="presentation" onClick={onClose}>
             <List>
-                {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                    <ListItem key={text} disablePadding>
-                        <ListItemButton>
-                            <ListItemIcon>
-                                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                            </ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItemButton>
-                    </ListItem>
-                ))}
+                <ListItem>
+                    <ListItemText > MATRICULAS </ListItemText>
+                </ListItem>
+                <ListItem key="matriculaPage" disablePadding>
+                    <ListItemButton onClick={() => navigate("/matriculaPage")}>
+                        <ListItemIcon>
+                            <ChecklistRtlIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Matriculas" />
+                    </ListItemButton>
+                </ListItem>
             </List>
             <Divider />
             <List>
-                {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                    <ListItem key={text} disablePadding>
-                        <ListItemButton>
-                            <ListItemIcon>
-                                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                            </ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItemButton>
-                    </ListItem>
-                ))}
+                <ListItem>
+                    <ListItemText > CURSOS </ListItemText>
+                </ListItem>
+                <ListItem key="cursoPage" disablePadding>
+                    <ListItemButton onClick={() => navigate("/cursoPage")}>
+                        <ListItemIcon>
+                            <ChecklistRtlIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Cursos" />
+                    </ListItemButton>
+                </ListItem>
+            </List>
+            <Divider />
+            <List>
+            <ListItem>
+                    <ListItemText > OTROS </ListItemText>
+                </ListItem>
+                <ListItem key="testFile" disablePadding>
+                    <ListItemButton onClick={() => navigate("/testFile")}>
+                        <ListItemIcon>
+                            <InboxIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="pagina test" />
+                    </ListItemButton>
+                </ListItem>
             </List>
         </Box>
     );
