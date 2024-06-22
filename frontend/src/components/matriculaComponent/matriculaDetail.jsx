@@ -7,6 +7,7 @@ import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import PropTypes from 'prop-types';
 import MenuItem from '@mui/material/MenuItem';
+import PDFButton from './PDFButton';
 
 
 const apiUrl = import.meta.env.VITE_API_URL;
@@ -37,9 +38,9 @@ const MatriculaDetail = ({ matricula }) => {
   const handleClose = () => setOpen(false);
 
   //datos a mostrar en el modal
-  const [matriculaData, setMatriculaData] = React.useState([]);
-  const [studentData, setStudentData] = React.useState([]);
-  const [cursoData, setCursoData] = React.useState([]);
+  const [matriculaData, setMatriculaData] = React.useState({});
+  const [studentData, setStudentData] = React.useState({});
+  const [cursoData, setCursoData] = React.useState({});
   const [cursos, setCursos] = React.useState([]);
 
   //boton para permitir escritura en los campos
@@ -244,20 +245,20 @@ const MatriculaDetail = ({ matricula }) => {
                 onChange={(e) => handleInputChange(e, 'student')}
               />
               <TextField
-                  name="IdCurso"
-                  select
-                  label="Curso"
-                  value={matriculaData.IdCurso || ""}
-                  onChange={(e) => handleInputChange(e, 'matricula')}
-                  variant="standard"
-                  InputProps={{ readOnly: isReadOnly }}
-                >
-                  {cursos.map((curso) => (
-                    <MenuItem key={curso._id} value={curso._id}>
-                      {curso.nombreCurso}
-                    </MenuItem>
-                  ))}
-                </TextField>
+                name="IdCurso"
+                select
+                label="Curso"
+                value={matriculaData.IdCurso || ""}
+                onChange={(e) => handleInputChange(e, 'matricula')}
+                variant="standard"
+                InputProps={{ readOnly: isReadOnly }}
+              >
+                {cursos.map((curso) => (
+                  <MenuItem key={curso._id} value={curso._id}>
+                    {curso.nombreCurso}
+                  </MenuItem>
+                ))}
+              </TextField>
 
               <TextField
                 name="horario"
@@ -319,7 +320,7 @@ const MatriculaDetail = ({ matricula }) => {
                   )}
                 </Grid>
                 <Grid item>
-                  <Button variant="contained" color="primary">Accion extra</Button>
+                  <PDFButton student={studentData} matricula={matricula} curso={cursoData} />
                 </Grid>
               </Grid>
             </Grid>
