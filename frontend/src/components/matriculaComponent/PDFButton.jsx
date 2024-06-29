@@ -2,6 +2,7 @@ import { jsPDF } from "jspdf";
 import { Button } from "@mui/material";
 import PropTypes from "prop-types";
 import { PDFDocument } from "pdf-lib";
+import { FichaCobro } from "./fichaCobro";
 // Asumiendo que la mitad de una hoja tamaño carta (279mm)
 
 const PDFButton = ({ student, matricula, curso }) => {
@@ -12,6 +13,15 @@ const PDFButton = ({ student, matricula, curso }) => {
             unit: "mm",
             format: "letter"
         });
+
+        const logoImg = '/public/logo1.jpg'; // Ruta de la imagen
+        const imgWidth = 85; // Ancho de la imagen en mm
+        const imgHeight = 19; // Alto de la imagen en mm
+        const imgX = 10; // Posición X de la imagen (esquina superior izquierda)
+        const imgY = 10; // Posición Y de la imagen (esquina superior izquierda)
+
+        // Cargar la imagen y agregarla al documento
+        doc.addImage(logoImg, 'JPG', imgX, imgY, imgWidth, imgHeight);
 
         const lineHeight = 7; // Height of each line
         const labelX = 10; // X position for labels
@@ -50,7 +60,7 @@ const PDFButton = ({ student, matricula, curso }) => {
         doc.text("su fuente laboral (se debe adjuntar documentación que lo acredite) hasta dos meses después de iniciado el", textX, 60 + 42); // Ajustado a 60 + 42
         doc.text("curso y en este caso, previo a la devolución, se descontarán las clases en las que participó el alumno.", textX, 65 + 42); // Ajustado a 65 + 42
 
-        const startY = 119; // Asumiendo que la mitad de una hoja tamaño carta (279mm) es aproximadamente 139.5mm
+        const startY = 119;
         // Datos del alumno
         doc.setFontSize(11);
         doc.setFont("helvetica", "bold");
@@ -79,8 +89,8 @@ const PDFButton = ({ student, matricula, curso }) => {
         doc.text(`Trimestre`, 10, startY + 52);
         doc.text(`: ${matricula.trimestre}`, colonX, startY + 52);
 
-        doc.text(`Firma`, 10, startY + 73); 
-        doc.text(":", colonX - 2, startY + 73); 
+        doc.text(`Firma`, 10, startY + 73);
+        doc.text(":", colonX - 2, startY + 73);
         doc.line(colonX, startY + 73.5, colonX + 120, startY + 73.5);
 
         // Calculamos la nueva posición de inicio para la sección
@@ -125,6 +135,10 @@ const PDFButton = ({ student, matricula, curso }) => {
         doc.text("Firma", labelX, startPosition + 5 * lineHeight);
         doc.text(":", fieldX - xOffset, startPosition + 5 * lineHeight + 2);
         doc.line(fieldX, startPosition + 5 * lineHeight + 2, fieldX + lineLength, startPosition + 5 * lineHeight + 2);
+
+
+        doc.addPage("letter", "p");
+        FichaCobro(doc);
 
         // Convert jsPDF to pdf-lib document
         const pdfDoc = await PDFDocument.load(doc.output("arraybuffer"));
