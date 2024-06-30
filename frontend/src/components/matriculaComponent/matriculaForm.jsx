@@ -56,11 +56,12 @@ const MatriculaForm = ({ handleSubmit, handleInputChange, newMatricula, newStude
                         required
                         id="outlined-required"
                         label="Rut"
+                        placeholder="12.345.678-9"
                         size='small'
                         onChange={(e) => handleInputChange(e, 'newStudent')}
                         inputProps={{
                             pattern: "\\d{2}\\.\\d{3}\\.\\d{3}-[\\dkK]"
-                        }}  
+                        }}
                     />
                     <TextField
                         name="nombres"
@@ -70,6 +71,9 @@ const MatriculaForm = ({ handleSubmit, handleInputChange, newMatricula, newStude
                         label="Nombres"
                         size='small'
                         onChange={(e) => handleInputChange(e, 'newStudent')}
+                        inputProps={{
+                            pattern: "^[a-zA-Z\\s]*$"
+                        }}
                     />
                     <TextField
                         name="apellidoPaterno"
@@ -79,6 +83,9 @@ const MatriculaForm = ({ handleSubmit, handleInputChange, newMatricula, newStude
                         label="Apellido Paterno"
                         size='small'
                         onChange={(e) => handleInputChange(e, 'newStudent')}
+                        inputProps={{
+                            pattern: "^[a-zA-Z\\s]*$"
+                        }}
                     />
                     <TextField
                         name="apellidoMaterno"
@@ -88,24 +95,33 @@ const MatriculaForm = ({ handleSubmit, handleInputChange, newMatricula, newStude
                         label="Apellido Materno"
                         size='small'
                         onChange={(e) => handleInputChange(e, 'newStudent')}
+                        inputProps={{
+                            pattern: "^[a-zA-Z\\s]*$"
+                        }}
                     />
                     <TextField
                         name="telefonos"
                         value={newStudent.telefonos}
-                        required
+                        
                         id="outlined-required"
                         label="Telefonos"
                         size='small'
                         onChange={(e) => handleInputChange(e, 'newStudent')}
+                        inputProps={{
+                            pattern: "^[0-9\\s+]*$"
+                        }}
                     />
                     <TextField
                         name="email"
                         value={newStudent.email}
-                        required
+                        
                         id="outlined-required"
                         label="Correo Electronico"
                         size='small'
                         onChange={(e) => handleInputChange(e, 'newStudent')}
+                        inputProps={{
+                            pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+                        }}
                     />
 
                     <TextField
@@ -126,7 +142,7 @@ const MatriculaForm = ({ handleSubmit, handleInputChange, newMatricula, newStude
                     <TextField
                         name="horario"
                         value={newMatricula.horario}
-                        required
+                        
                         id="outlined-required"
                         label="Horario"
                         size='small'
@@ -134,13 +150,18 @@ const MatriculaForm = ({ handleSubmit, handleInputChange, newMatricula, newStude
                     />
                     <TextField
                         name="trimestre"
-                        value={newMatricula.trimestre}
-                        required
-                        id="outlined-required"
+                        select
                         label="Trimestre"
-                        size='small'
+                        value={newMatricula.trimestre || "-"} 
                         onChange={handleInputChange}
-                    />
+                        fullWidth
+                    >
+                        <MenuItem value={"-"}>Seleccione un trimestre</MenuItem>
+                        <MenuItem value={"Verano"}>Verano</MenuItem>
+                        <MenuItem value={"Primero"}>Primero</MenuItem>
+                        <MenuItem value={"Segundo"}>Segundo</MenuItem>
+                        <MenuItem value={"Tercero"}>Tercero</MenuItem>
+                    </TextField>
 
                 </Grid>
                 <Grid item xs={6} textAlign={'center'}>
@@ -148,16 +169,19 @@ const MatriculaForm = ({ handleSubmit, handleInputChange, newMatricula, newStude
                     <TextField
                         name="nombresApoderado"
                         value={newStudent.nombresApoderado}
-                        required
+                        
                         id="outlined-required"
                         label="Nombres Apoderado"
                         size='small'
                         onChange={(e) => handleInputChange(e, 'newStudent')}
+                        inputProps={{
+                            pattern: "^[a-zA-Z\\s]*$"
+                        }}
                     />
                     <TextField
                         name="apellidosApoderado"
                         value={newStudent.apellidosApoderado}
-                        required
+                        
                         id="outlined-required"
                         label="Apellidos Apoderado"
                         size='small'
@@ -166,7 +190,6 @@ const MatriculaForm = ({ handleSubmit, handleInputChange, newMatricula, newStude
                     <TextField
                         name="telefonosApoderado"
                         value={newStudent.telefonosApoderado}
-                        required
                         id="outlined-required"
                         label="Telefonos Apoderado"
                         size='small'
@@ -175,7 +198,6 @@ const MatriculaForm = ({ handleSubmit, handleInputChange, newMatricula, newStude
                     <TextField
                         name="emailApoderado"
                         value={newStudent.emailApoderado}
-                        required
                         id="outlined-required"
                         label="Correo Electronico Apoderado"
                         size='small'

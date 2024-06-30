@@ -182,7 +182,7 @@ const MatriculaDetail = ({ matricula }) => {
 
   return (
     <div>
-      <Button onClick={handleOpen}>Ver Detalles</Button>
+      <Button variant="contained" size="small" onClick={handleOpen}>VER</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -314,14 +314,16 @@ const MatriculaDetail = ({ matricula }) => {
                 </Grid>
                 <Grid item>
                   {!isReadOnly && (
-                    <Button variant="contained" sx={{ ml: 2 }} onClick={handleUpdate}>
+                    <Button variant="contained" color="success" sx={{ ml: 2 }} onClick={handleUpdate}>
                       Guardar cambios
                     </Button>
                   )}
                 </Grid>
-                <Grid item>
-                  <PDFButton student={studentData} matricula={matricula} curso={cursoData} />
-                </Grid>
+                {isReadOnly && (
+                  <Grid item>
+                    <PDFButton student={studentData} matricula={matricula} curso={cursoData} />
+                  </Grid>
+                )}
               </Grid>
             </Grid>
           </Grid>

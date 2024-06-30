@@ -9,47 +9,81 @@ import TablePagination from '@mui/material/TablePagination';
 import { useEffect, useState } from "react";
 import MatriculaDetail from './matriculaDetail';
 import * as React from 'react';
+import propTypes from 'prop-types';
+import Button from '@mui/material/Button';
+
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
-// http://localhost:3000/api/students/getStudents/
+const MatriculaList = ({ matriculas, deleteMatriculaAndStudent }) => {
 
-const MatriculaList = () => {
-
-    const [matriculas, setMatriculas] = useState([]);
+    // const [matriculas, setMatriculas] = useState([]);
     const [studentData, setStudentData] = useState([]);
     const [cursoData, setCursoData] = useState([]);
 
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
+    const [openDialog, setOpenDialog] = React.useState(false);
+    const [selectedMatricula, setSelectedMatricula] = React.useState({ idMatricula: '', idStudent: '' });
+
+    const handleClickOpen = (idMatricula, idStudent) => {
+        setSelectedMatricula({ idMatricula, idStudent });
+        setOpenDialog(true);
+    };
+
+    const handleClose = () => {
+        setOpenDialog(false);
+    };
+
+    const handleConfirmDelete = () => {
+        const { idMatricula, idStudent } = selectedMatricula;
+        deleteMatriculaAndStudent(idMatricula, idStudent);
+        setOpenDialog(false);
+    };
+
+    // useEffect(() => {
+    //     const fetchMatriculas = async () => {
+    //         try {
+    //             const response = await fetch(`${apiUrl}/matriculas/getMatriculas/`, {
+    //                 method: 'GET',
+    //                 headers: {
+    //                     'Content-Type': 'application/json'
+    //                 }
+    //             });
+    //             const result = await response.json();
+    //             setMatriculas(result);
+
+    //             //obtener datos de estudiantes por su Id
+    //             const studentId = [...new Set(result.map(matricula => matricula.IdStudent))];
+    //             studentId.forEach(id => fetchStudents(id));
+
+    //             //obtener datos de cursos por su Id
+    //             const cursoId = [...new Set(result.map(matricula => matricula.IdCurso))];
+    //             cursoId.forEach(id => fetchCursos(id));
+
+    //             console.log(result);
+    //         } catch (error) {
+    //             console.log(error);
+    //         }
+    //     }
+    //     fetchMatriculas();
+    // }, []);
+
     useEffect(() => {
-        const fetchMatriculas = async () => {
-            try {
-                const response = await fetch(`${apiUrl}/matriculas/getMatriculas/`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
-                const result = await response.json();
-                setMatriculas(result);
+        //obtener datos de estudiantes por su Id
+        const studentId = [...new Set(matriculas.map(matricula => matricula.IdStudent))];
+        studentId.forEach(id => fetchStudents(id));
 
-                //obtener datos de estudiantes por su Id
-                const studentId = [...new Set(result.map(matricula => matricula.IdStudent))];
-                studentId.forEach(id => fetchStudents(id));
-
-                //obtener datos de cursos por su Id
-                const cursoId = [...new Set(result.map(matricula => matricula.IdCurso))];
-                cursoId.forEach(id => fetchCursos(id));
-
-                console.log(result);
-            } catch (error) {
-                console.log(error);
-            }
-        }
-        fetchMatriculas();
-    }, []);
+        //obtener datos de cursos por su Id
+        const cursoId = [...new Set(matriculas.map(matricula => matricula.IdCurso))];
+        cursoId.forEach(id => fetchCursos(id));
+    }, [matriculas]);
 
     const fetchStudents = async (idStudent) => {
         try {
@@ -101,6 +135,7 @@ const MatriculaList = () => {
                         <TableCell align="right">Horario</TableCell>
                         <TableCell align="right">Fecha De Inscripcion</TableCell>
                         <TableCell align="right">Detalles</TableCell>
+                        <TableCell align="right">Acciones</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -122,27 +157,62 @@ const MatriculaList = () => {
                             <TableCell>
                                 <MatriculaDetail matricula={matricula} />
                             </TableCell>
+                            <TableCell align="right">
+                                {/* <Button variant="contained" size="small" color="error" onClick={() => deleteMatriculaAndStudent(matricula._id, matricula.IdStudent)}>
+                                    Eliminar
+                                </Button> */}
+                                <Button variant="contained" size="small" color="error" onClick={() => handleClickOpen(matricula._id, matricula.IdStudent)}>
+                                    Eliminar
+                                </Button>
+                            </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
-                
+
             </Table>
             <TablePagination
-                    rowsPerPageOptions={[10, 25, 100]}
-                    component="div"
-                    count={matriculas.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onPageChange={(event, newPage) => {
-                        setPage(newPage);
-                    }}
-                    onRowsPerPageChange={(event) => {
-                        setRowsPerPage(parseInt(event.target.value, 10));
-                        setPage(0);
-                    }}
-                />
+                rowsPerPageOptions={[10, 25, 100]}
+                component="div"
+                count={matriculas.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={(event, newPage) => {
+                    setPage(newPage);
+                }}
+                onRowsPerPageChange={(event) => {
+                    setRowsPerPage(parseInt(event.target.value, 10));
+                    setPage(0);
+                }}
+            />
+            <Dialog
+                open={openDialog}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">
+                    {"Confirmar eliminación"}
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        ¿Estás seguro de que quieres eliminar esta matrícula? Esta acción no se puede deshacer.
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose}>Cancelar</Button>
+                    <Button onClick={handleConfirmDelete} color="error" autoFocus>
+                        Eliminar
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </TableContainer>
     );
 }
 
 export default MatriculaList;
+
+MatriculaList.propTypes = {
+
+    matriculas: propTypes.array.isRequired,
+    deleteMatriculaAndStudent: propTypes.func.isRequired
+};

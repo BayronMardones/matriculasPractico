@@ -31,9 +31,30 @@ const PDFButton = ({ student, matricula, curso }) => {
         // Encabezado
         doc.setFontSize(12);
         doc.setFont("helvetica", "bold");
-        doc.text("FICHA MATRÍCULA NORTEAMERICANO CONCEPCIÓN", 105, 10 + 32, { align: "center" }); // Ajustado a 10 + 42
+        doc.text("FICHA MATRÍCULA NORTEAMERICANO CONCEPCIÓN", 105, 10 + 32, { align: "center" });
         doc.setFontSize(12);
-        doc.text("THIRD TERM 2023", 105, 15 + 32, { align: "center" }); // Ajustado a 15 + 42
+        // Determine the term based on matricula.trimestre and append the current year
+        const currentYear = new Date().getFullYear(); // Get the current year
+        let termText = ""; // Initialize the term text variable
+        switch (matricula.trimestre) {
+            case "Primero":
+                termText = `FIRST TERM ${currentYear}`;
+                break;
+            case "Segundo":
+                termText = `SECOND TERM ${currentYear}`;
+                break;
+            case "Tercero":
+                termText = `THIRD TERM ${currentYear}`;
+                break;
+            case "Verano":
+                termText = `SUMMER TERM ${currentYear}`;
+                break;
+            default:
+                termText = `TERM ${currentYear}`; // Default case if none of the above matches
+        }
+
+        // Use the determined term text in the document
+        doc.text(termText, 105, 15 + 32, { align: "center" });
 
         doc.setFont("helvetica", "normal");
         doc.setFontSize(10);
@@ -41,7 +62,7 @@ const PDFButton = ({ student, matricula, curso }) => {
         doc.text("(Kids) y adolescentes (Teens) se solicita, además, completar la información del apoderado.", 10, 35 + 30); // Ajustado a 35 + 42
 
         doc.setTextColor(255, 0, 0); // Cambiar el color de la fuente a rojo
-        doc.setFont("helvetica", "bold"); // Cambiar la fuente a negrita
+        doc.setFont("helvetica", "bold");
         doc.text("Sin esta ficha de matrícula, no será posible contactar a los alumnos y/o apoderados en caso de ser necesario.", 10, 40 + 36); // Ajustado a 40 + 42
         doc.setFont("helvetica", "normal"); // Restablecer la fuente a normal para el texto siguiente
         doc.setTextColor(0); // Restablecer el color de la fuente a negro para el texto siguiente
