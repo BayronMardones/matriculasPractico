@@ -10,7 +10,7 @@ const matriculaSchema = new Schema({
     },
     fechaIngreso: {
         type: String,
-        // required: true,
+        default: () => new Date().toISOString(), 
     },
     IdStudent: {
         type: Schema.Types.ObjectId, ref: 'Student',

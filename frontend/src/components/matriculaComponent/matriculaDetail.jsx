@@ -8,6 +8,7 @@ import TextField from '@mui/material/TextField';
 import PropTypes from 'prop-types';
 import MenuItem from '@mui/material/MenuItem';
 import PDFButton from './PDFButton';
+import CustomizedSnackbars from '../CustomizedSnackbars';
 
 
 const apiUrl = import.meta.env.VITE_API_URL;
@@ -45,6 +46,16 @@ const MatriculaDetail = ({ matricula }) => {
 
   //boton para permitir escritura en los campos
   const [isReadOnly, setIsReadOnly] = React.useState(true);
+
+  // Estados para el Snackbar
+  const [snackbarOpen, setSnackbarOpen] = React.useState(false);
+  const [snackbarMessage, setSnackbarMessage] = React.useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = React.useState('success');
+
+  // Función para manejar el cierre del Snackbar
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
 
   //hacer que fectchMatricula guarde los datos de la matricula en un estado para mostrarlos en el modal
   React.useEffect(() => {
@@ -171,11 +182,15 @@ const MatriculaDetail = ({ matricula }) => {
       }
 
       const result = await response.json();
-      alert('Matricula actualizada');
+      setSnackbarMessage('Matrícula actualizada correctamente');
+      setSnackbarSeverity('success');
+      setSnackbarOpen(true);
       toggleReadOnly();
       console.log(result);
     } catch (error) {
-      alert('Error al actualizar la matricula');
+      setSnackbarMessage('Error al actualizar la matrícula');
+      setSnackbarSeverity('error');
+      setSnackbarOpen(true);
       console.log(error);
     }
   };
@@ -329,6 +344,12 @@ const MatriculaDetail = ({ matricula }) => {
           </Grid>
         </Box>
       </Modal>
+      <CustomizedSnackbars
+        open={snackbarOpen}
+        handleClose={handleSnackbarClose}
+        message={snackbarMessage}
+        severity={snackbarSeverity}
+      />
     </div>
   );
 }

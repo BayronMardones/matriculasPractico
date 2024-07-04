@@ -1,6 +1,10 @@
 import Matricula from '../models/matriculaModel.js';
 
 export const createMatricula = async (req, res) => {
+    // Establecer fechaIngreso a la fecha y hora actual si no se proporciona
+    if (!req.body.fechaIngreso) {
+        req.body.fechaIngreso = new Date().toISOString();
+    }
     const newMatricula = new Matricula(req.body);
     try {
         await newMatricula.save();
@@ -40,7 +44,7 @@ export const deleteMatricula = async (req, res) => {
 
 export const updateMatricula = async (req, res) => {
     try {
-        const updatedMatricula = await Matricula.findByIdAndUpdate(req.params   .id, req.body   , { new: true });
+        const updatedMatricula = await Matricula.findByIdAndUpdate(req.params.id, req.body, { new: true });
         res.status(200).json(updatedMatricula);
     }
     catch (error) {
