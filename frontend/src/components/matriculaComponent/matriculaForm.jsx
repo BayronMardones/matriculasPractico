@@ -39,10 +39,13 @@ const MatriculaForm = ({ handleSubmit, handleInputChange, newMatricula, newStude
                 item
                 xs={6}
                 component="form"
-                backgroundColor={'#D7DADE'}
+                backgroundColor={'#05172E'}
                 onSubmit={handleSubmit}
                 sx={{
-                    '& .MuiTextField-root': { m: 1, width: '50%', backgroundColor: 'white' }
+                    '& .MuiTextField-root': { m: 1, width: '50%' },
+                    '& .MuiOutlinedInput-input': { backgroundColor: '#1E3E66' }, 
+                    '& .MuiInputLabel-root': { color: '#F2F8FF' }, 
+
                 }}
                 // noValidate
                 autoComplete="off"
@@ -56,11 +59,17 @@ const MatriculaForm = ({ handleSubmit, handleInputChange, newMatricula, newStude
                         required
                         id="outlined-required"
                         label="Rut"
-                        placeholder="12.345.678-9"
+                        placeholder="ej: 12.345.678-9"
                         size='small'
                         onChange={(e) => handleInputChange(e, 'newStudent')}
                         inputProps={{
                             pattern: "\\d{2}\\.\\d{3}\\.\\d{3}-[\\dkK]"
+                        }}
+                        sx={{
+                            '& .MuiInputBase-input::placeholder': { // Aplica el estilo al placeholder
+                                color: 'white', // Cambia 'red' por el color deseado
+                                opacity: 0.7, // Asegura que el color se vea correctamente
+                            }
                         }}
                     />
                     <TextField
@@ -102,7 +111,7 @@ const MatriculaForm = ({ handleSubmit, handleInputChange, newMatricula, newStude
                     <TextField
                         name="telefonos"
                         value={newStudent.telefonos}
-                        
+
                         id="outlined-required"
                         label="Telefonos"
                         size='small'
@@ -114,7 +123,7 @@ const MatriculaForm = ({ handleSubmit, handleInputChange, newMatricula, newStude
                     <TextField
                         name="email"
                         value={newStudent.email}
-                        
+
                         id="outlined-required"
                         label="Correo Electronico"
                         size='small'
@@ -129,6 +138,7 @@ const MatriculaForm = ({ handleSubmit, handleInputChange, newMatricula, newStude
                         select
                         label="Curso"
                         value={newMatricula.IdCurso}
+                        required
                         onChange={handleInputChange}
                         fullWidth
                     >
@@ -142,7 +152,7 @@ const MatriculaForm = ({ handleSubmit, handleInputChange, newMatricula, newStude
                     <TextField
                         name="horario"
                         value={newMatricula.horario}
-                        
+
                         id="outlined-required"
                         label="Horario"
                         size='small'
@@ -152,7 +162,7 @@ const MatriculaForm = ({ handleSubmit, handleInputChange, newMatricula, newStude
                         name="trimestre"
                         select
                         label="Trimestre"
-                        value={newMatricula.trimestre || "-"} 
+                        value={newMatricula.trimestre || "-"}
                         onChange={handleInputChange}
                         fullWidth
                     >
@@ -169,7 +179,7 @@ const MatriculaForm = ({ handleSubmit, handleInputChange, newMatricula, newStude
                     <TextField
                         name="nombresApoderado"
                         value={newStudent.nombresApoderado}
-                        
+
                         id="outlined-required"
                         label="Nombres Apoderado"
                         size='small'
@@ -181,7 +191,7 @@ const MatriculaForm = ({ handleSubmit, handleInputChange, newMatricula, newStude
                     <TextField
                         name="apellidosApoderado"
                         value={newStudent.apellidosApoderado}
-                        
+
                         id="outlined-required"
                         label="Apellidos Apoderado"
                         size='small'

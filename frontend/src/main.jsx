@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
-// import './index.css'
+import './index.css'
 import {
   createBrowserRouter,
   RouterProvider,
@@ -14,6 +14,7 @@ import HomePage from './pages/homePage.jsx';
 import Login from './pages/login.jsx';
 import CursoPage from './pages/cursoPage/cursoPage.jsx';
 import { AuthProvider, useAuth } from './context/authContext.jsx';
+import MatriculaListPage from './pages/matriculaPage/matriculaListPage.jsx';
 
 import TestFile from './pages/testFile.jsx';
 
@@ -52,7 +53,12 @@ const Router = createBrowserRouter([
   {
     path: "/cursoPage", 
     element: <CursoPage />
+  },
+  {
+    path: "/matriculaListPage",
+    element: <MatriculaListPage />
   }
+
 
 ]);
 

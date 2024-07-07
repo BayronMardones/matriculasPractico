@@ -29,7 +29,7 @@ const MatriculaList = ({ matriculas, deleteMatriculaAndStudent }) => {
 
     // Estados existentes...
     const [filtroTrimestre, setFiltroTrimestre] = useState('Todas'); // Paso 1: Estado para el filtro
-
+    
     // const [matriculas, setMatriculas] = useState([]);
     const [studentData, setStudentData] = useState([]);
     const [cursoData, setCursoData] = useState([]);
@@ -146,15 +146,24 @@ const MatriculaList = ({ matriculas, deleteMatriculaAndStudent }) => {
 
     return (
         <>
-            <Box display="flex" alignItems="center" gap={1}> {/* Añade un contenedor con display flex */}
-                <Typography variant="body1">Filtrar por semestre:</Typography> {/* Texto descriptivo */}
-                <Select // Paso 3: Selector de filtro
+            <Box display="flex" alignItems="center" gap={1} sx={{ backgroundColor: '#1E3E66' }}> 
+                <Typography variant="body1">Filtrar por Trimestre:</Typography> 
+                <Select //Selector de filtro
                     value={filtroTrimestre}
                     onChange={(e) => setFiltroTrimestre(e.target.value)}
                     displayEmpty
                     inputProps={{ 'aria-label': 'Without label' }}
-                    size="small" // Hace el Select más pequeño
-                    sx={{ width: 120 }}
+                    size="small" 
+                    sx={{
+                        width: 120,
+                        color: 'white', // Cambia el color del texto del input
+                        '.MuiOutlinedInput-notchedOutline': {
+                            borderColor: 'white', // Cambia el color del borde
+                        },
+                        '& .MuiSvgIcon-root': {
+                            color: 'white', // Cambia el color del ícono (flecha hacia abajo)
+                        }
+                    }}
                 >
                     <MenuItem value="Todas">Todas</MenuItem>
                     <MenuItem value="Verano">Verano</MenuItem>
@@ -164,13 +173,18 @@ const MatriculaList = ({ matriculas, deleteMatriculaAndStudent }) => {
                 </Select>
             </Box>
 
-            <TableContainer component={Paper} sx={{ maxHeight: '300px', backgroundColor: "#D7DADE" }}>
+            <TableContainer component={Paper} sx={{ maxHeight: '300px', backgroundColor: "#1E3E66" }}>
                 <Table sx={{ minWidth: 200 }} size="small" aria-label="a dense table" stickyHeader>
-                    <TableHead>
+                    <TableHead sx={{
+                        '.MuiTableCell-head': {
+                            color: 'white',
+                            backgroundColor: '#05172E', // Asegúrate de que esto se aplique correctamente
+                        },
+                    }}>
                         <TableRow>
                             <TableCell>MATRICULA</TableCell>
                             <TableCell align="right">Nombre Estudiante</TableCell>
-                            <TableCell align="right">RUT</TableCell>
+                            <TableCell align="right">Apellidos</TableCell>
                             <TableCell align="right">Telefono</TableCell>
                             <TableCell align="right">Correo</TableCell>
                             <TableCell align="right">Curso</TableCell>
@@ -180,7 +194,10 @@ const MatriculaList = ({ matriculas, deleteMatriculaAndStudent }) => {
                             <TableCell align="right">Acciones</TableCell>
                         </TableRow>
                     </TableHead>
-                    <TableBody>
+                    <TableBody sx={{
+                        // Aplica estilos a todas las TableCell dentro de TableBody
+                        '.MuiTableCell-body': { color: 'white' },
+                    }}>
                         {filtrarMatriculas().slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((matricula) => (
                             <TableRow
                                 key={matricula._id}
@@ -190,7 +207,9 @@ const MatriculaList = ({ matriculas, deleteMatriculaAndStudent }) => {
                                     {studentData[matricula.IdStudent]?.rut || "-"}
                                 </TableCell>
                                 <TableCell align="inherit">{studentData[matricula.IdStudent]?.nombres || "-"}</TableCell>
-                                <TableCell align="right">{studentData[matricula.IdStudent]?.rut || "-"}</TableCell>
+                                <TableCell align="right">
+                                    {`${studentData[matricula.IdStudent]?.apellidoPaterno || ""} ${studentData[matricula.IdStudent]?.apellidoMaterno || ""}`}
+                                </TableCell>
                                 <TableCell align="right">{studentData[matricula.IdStudent]?.telefonos || "-"}</TableCell>
                                 <TableCell align="right">{studentData[matricula.IdStudent]?.email}</TableCell>
                                 <TableCell align="right">{cursoData[matricula.IdCurso]?.nombreCurso}</TableCell>
@@ -221,6 +240,17 @@ const MatriculaList = ({ matriculas, deleteMatriculaAndStudent }) => {
                     onRowsPerPageChange={(event) => {
                         setRowsPerPage(parseInt(event.target.value, 10));
                         setPage(0);
+                    }}
+                    sx={{
+                        ".MuiTablePagination-toolbar": {
+                            color: "white", // Cambia el color de las letras en la barra de herramientas
+                        },
+                        ".MuiTablePagination-selectLabel, .MuiTablePagination-displayedRows": {
+                            color: "white", // Cambia el color de las etiquetas y el rango de filas mostradas
+                        },
+                        ".MuiInputBase-input": {
+                            color: "white", // Cambia el color del input (por ejemplo, el selector de número de filas por página)
+                        }
                     }}
                 />
                 <Dialog

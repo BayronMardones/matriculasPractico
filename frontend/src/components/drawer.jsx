@@ -28,7 +28,15 @@ export default function TemporaryDrawer({ open, onClose }) {
                         <ListItemIcon>
                             <ChecklistRtlIcon />
                         </ListItemIcon>
-                        <ListItemText primary="Matriculas" />
+                        <ListItemText primary="Registrar nuevo" />
+                    </ListItemButton>
+                </ListItem>
+                <ListItem key="matriculaListPage" disablePadding>
+                    <ListItemButton onClick={() => navigate("/matriculaListPage")}>
+                        <ListItemIcon>
+                            <ChecklistRtlIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Lista de Matriculas" />
                     </ListItemButton>
                 </ListItem>
             </List>
