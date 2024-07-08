@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Grid from '@mui/material/Grid';
 import { useState, useEffect } from 'react';
 import MenuItem from '@mui/material/MenuItem';
+import Typography from '@mui/material/Typography';
 const apiUrl = import.meta.env.VITE_API_URL;
 
 
@@ -33,7 +34,9 @@ const MatriculaForm = ({ handleSubmit, handleInputChange, newMatricula, newStude
 
     return (
         <>
-            <h2>Crear Matricula</h2>
+            <Typography variant="h2" gutterBottom>
+                Registrar Matricula
+            </Typography>
             <Grid
                 container
                 item
@@ -43,16 +46,20 @@ const MatriculaForm = ({ handleSubmit, handleInputChange, newMatricula, newStude
                 onSubmit={handleSubmit}
                 sx={{
                     '& .MuiTextField-root': { m: 1, width: '50%' },
-                    '& .MuiOutlinedInput-input': { backgroundColor: '#1E3E66' }, 
-                    '& .MuiInputLabel-root': { color: '#F2F8FF' }, 
-
+                    '& .MuiOutlinedInput-input': { backgroundColor: '#1E3E66' },
+                    '& .MuiInputLabel-root': { color: '#F2F8FF' },
+                    '& .MuiInputBase-input': { 
+                        color: 'white', 
+                    },
                 }}
                 // noValidate
                 autoComplete="off"
             >
 
                 <Grid item xs={6} textAlign={'center'}>
-                    <h2>DATOS ESTUDIANTE</h2>
+                    <Typography variant="h6" gutterBottom>
+                        Ingrese los datos del estudiante
+                    </Typography>
                     <TextField
                         name="rut"
                         value={newStudent.rut}
@@ -81,7 +88,7 @@ const MatriculaForm = ({ handleSubmit, handleInputChange, newMatricula, newStude
                         size='small'
                         onChange={(e) => handleInputChange(e, 'newStudent')}
                         inputProps={{
-                            pattern: "^[a-zA-Z\\s]*$"
+                            pattern: "^[a-zA-ZñÑ\\s]*$"
                         }}
                     />
                     <TextField
@@ -93,7 +100,7 @@ const MatriculaForm = ({ handleSubmit, handleInputChange, newMatricula, newStude
                         size='small'
                         onChange={(e) => handleInputChange(e, 'newStudent')}
                         inputProps={{
-                            pattern: "^[a-zA-Z\\s]*$"
+                            pattern: "^[a-zA-ZñÑ\\s]*$"
                         }}
                     />
                     <TextField
@@ -105,7 +112,7 @@ const MatriculaForm = ({ handleSubmit, handleInputChange, newMatricula, newStude
                         size='small'
                         onChange={(e) => handleInputChange(e, 'newStudent')}
                         inputProps={{
-                            pattern: "^[a-zA-Z\\s]*$"
+                            pattern: "^[a-zA-ZñÑ\\s]*$"
                         }}
                     />
                     <TextField
@@ -175,7 +182,12 @@ const MatriculaForm = ({ handleSubmit, handleInputChange, newMatricula, newStude
 
                 </Grid>
                 <Grid item xs={6} textAlign={'center'}>
-                    <h2>DATOS APODERADO</h2>
+                    <Typography variant="h6" gutterBottom>
+                        Ingrese los datos del apoderado
+                    </Typography>
+                    <Typography variant="subtitle2" gutterBottom>
+                        (opcional)
+                    </Typography>
                     <TextField
                         name="nombresApoderado"
                         value={newStudent.nombresApoderado}
@@ -185,7 +197,7 @@ const MatriculaForm = ({ handleSubmit, handleInputChange, newMatricula, newStude
                         size='small'
                         onChange={(e) => handleInputChange(e, 'newStudent')}
                         inputProps={{
-                            pattern: "^[a-zA-Z\\s]*$"
+                            pattern: "^[a-zA-ZñÑ\\s]*$"
                         }}
                     />
                     <TextField
@@ -196,6 +208,9 @@ const MatriculaForm = ({ handleSubmit, handleInputChange, newMatricula, newStude
                         label="Apellidos Apoderado"
                         size='small'
                         onChange={(e) => handleInputChange(e, 'newStudent')}
+                        inputProps={{
+                            pattern: "^[a-zA-ZñÑ\\s]*$"
+                        }}
                     />
                     <TextField
                         name="telefonosApoderado"

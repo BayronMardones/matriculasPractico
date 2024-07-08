@@ -15,6 +15,7 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
 
 //Dialogo que permite la eliminaicon en dos pasos
 import Dialog from '@mui/material/Dialog';
@@ -27,9 +28,13 @@ const apiUrl = import.meta.env.VITE_API_URL;
 
 const MatriculaList = ({ matriculas, deleteMatriculaAndStudent }) => {
 
-    // Estados existentes...
-    const [filtroTrimestre, setFiltroTrimestre] = useState('Todas'); // Paso 1: Estado para el filtro
-    
+    // filtros para matriculas
+    const [filtroTrimestre, setFiltroTrimestre] = useState('Todas');
+    const [filtroCurso, setFiltroCurso] = useState('Todos');
+    const [cursos, setCursos] = useState([]);
+    const [filtroRut, setFiltroRut] = useState('');
+    const [students, setStudents] = useState([]);
+
     // const [matriculas, setMatriculas] = useState([]);
     const [studentData, setStudentData] = useState([]);
     const [cursoData, setCursoData] = useState([]);
@@ -58,17 +63,66 @@ const MatriculaList = ({ matriculas, deleteMatriculaAndStudent }) => {
 
     // Función para filtrar las matrículas
     const filtrarMatriculas = () => {
-        switch (filtroTrimestre) {
-            case 'Verano':
-            case 'Primero':
-            case 'Segundo':
-            case 'Tercero':
-                return matriculas.filter(matricula => matricula.trimestre === filtroTrimestre);
-            case 'Todas':
-            default:
-                return matriculas;
+        let matriculasFiltradas = matriculas;
+
+        // Filtro por trimestre
+        if (filtroTrimestre !== 'Todas') {
+            matriculasFiltradas = matriculasFiltradas.filter(matricula => matricula.trimestre === filtroTrimestre);
+        }
+
+        // Filtro por curso
+        if (filtroCurso !== 'Todos') {
+            matriculasFiltradas = matriculasFiltradas.filter(matricula => cursoData[matricula.IdCurso]?.nombreCurso === filtroCurso);
+        }
+
+        if (filtroRut !== '') {
+            matriculasFiltradas = matriculasFiltradas.filter(matricula => {
+                // Utilizar `studentData` para obtener el RUT del estudiante asociado a la matrícula
+                const studentRut = studentData[matricula.IdStudent]?.rut;
+                return studentRut?.includes(filtroRut);
+            });
+        }
+
+        return matriculasFiltradas;
+    };
+
+    const fetchCursosList = async () => {
+        try {
+            const response = await fetch(`${apiUrl}/cursos/getCursos/`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            const result = await response.json();
+            setCursos(result);
+        } catch (error) {
+            console.log(error);
         }
     };
+
+    useEffect(() => {
+        fetchCursosList();
+    }, []);
+
+    useEffect(() => {
+        const fetchStudents = async () => {
+            try {
+                const response = await fetch(`${apiUrl}/students/getStudents/`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                const result = await response.json();
+                setStudents(result);
+                console.log(result);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        fetchStudents();
+    }, []);
 
     // useEffect(() => {
     //     const fetchMatriculas = async () => {
@@ -146,14 +200,14 @@ const MatriculaList = ({ matriculas, deleteMatriculaAndStudent }) => {
 
     return (
         <>
-            <Box display="flex" alignItems="center" gap={1} sx={{ backgroundColor: '#1E3E66' }}> 
-                <Typography variant="body1">Filtrar por Trimestre:</Typography> 
+            <Box display="flex" alignItems="center" gap={1} sx={{ backgroundColor: '#1E3E66' }}>
+                <Typography variant="body1">Filtrar por Trimestre:</Typography>
                 <Select //Selector de filtro
                     value={filtroTrimestre}
                     onChange={(e) => setFiltroTrimestre(e.target.value)}
                     displayEmpty
                     inputProps={{ 'aria-label': 'Without label' }}
-                    size="small" 
+                    size="small"
                     sx={{
                         width: 120,
                         color: 'white', // Cambia el color del texto del input
@@ -165,12 +219,60 @@ const MatriculaList = ({ matriculas, deleteMatriculaAndStudent }) => {
                         }
                     }}
                 >
-                    <MenuItem value="Todas">Todas</MenuItem>
+                    <MenuItem value="Todas">Todos</MenuItem>
                     <MenuItem value="Verano">Verano</MenuItem>
                     <MenuItem value="Primero">Primero</MenuItem>
                     <MenuItem value="Segundo">Segundo</MenuItem>
                     <MenuItem value="Tercero">Tercero</MenuItem>
                 </Select>
+
+                <Typography variant="body1">Filtrar por Curso:</Typography>
+                <Select
+                    value={filtroCurso}
+                    onChange={(e) => setFiltroCurso(e.target.value)}
+                    displayEmpty
+                    inputProps={{ 'aria-label': 'Without label' }}
+                    size="small"
+                    sx={{
+                        width: 120,
+                        color: 'white', // Cambia el color del texto del input
+                        '.MuiOutlinedInput-notchedOutline': {
+                            borderColor: 'white', // Cambia el color del borde
+                        },
+                        '& .MuiSvgIcon-root': {
+                            color: 'white', // Cambia el color del ícono (flecha hacia abajo)
+                        }
+                    }}
+                >
+                    <MenuItem value="Todos">Todos</MenuItem>
+                    {/* Aquí se deben listar los cursos dinámicamente */}
+                    {cursos.map((curso) => (
+                        <MenuItem key={curso.nombreCurso} value={curso.nombreCurso}>{curso.nombreCurso}</MenuItem>
+                    ))}
+                </Select>
+
+                <Typography variant="body1" sx={{ color: 'white' }}>Filtrar por RUT:</Typography>
+                <TextField
+                    id="outlined-rut-input"
+                    value={filtroRut}
+                    onChange={(e) => setFiltroRut(e.target.value)}
+                    size="small"
+                    variant="outlined"
+                    style={{ padding: '5px' }}
+                    sx={{
+                        width: 120,
+                        '.MuiOutlinedInput-notchedOutline': {
+                            borderColor: 'white', // Cambia el color del borde
+                        },
+                        '& .MuiSvgIcon-root': {
+                            color: 'white', // Cambia el color del ícono (flecha hacia abajo)
+                        },
+                        '& .MuiInputBase-input': {
+                            color: 'white',
+                        },
+                    }}
+                />
+
             </Box>
 
             <TableContainer component={Paper} sx={{ maxHeight: '300px', backgroundColor: "#1E3E66" }}>

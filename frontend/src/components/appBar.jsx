@@ -4,7 +4,6 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
 import TemporaryDrawer from './drawer.jsx';
 import MenuIcon from '@mui/icons-material/Menu';
 
@@ -17,7 +16,7 @@ const ButtonAppBar = () => {
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static">
+            <AppBar position="static" sx={{ bgcolor: '#05172E' }}>
                 <Toolbar>
                     <MenuIcon
                         size="large"

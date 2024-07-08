@@ -166,7 +166,6 @@ const MatriculaPage = () => {
         <div>
 
             <ButtonAppBar />
-            <h1>Matricula Page</h1>
             <MatriculaForm handleInputChange={handleInputChange} handleSubmit={handleSubmit} newMatricula={newMatricula} newStudent={newStudent} />
             <CustomizedSnackbars
                 message={snackbarMessage}
