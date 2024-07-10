@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { useState } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -18,31 +17,56 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Box from '@mui/material/Box';
 
+
 const CursoList = () => {
-    const { cursos, addCurso, deleteCurso } = useCursoService();
+    const { cursos, addCurso, deleteCurso, editCurso, snackbarOpen,
+        snackbarMessage,
+        snackbarSeverity,
+        handleCloseSnackbar } = useCursoService();
     const [cursoName, setCursoName] = useState('');
-    const [snackbarOpen, setSnackbarOpen] = useState(false);
-    const [snackbarMessage, setSnackbarMessage] = useState('');
-    const [snackbarSeverity, setSnackbarSeverity] = useState('success');
     const [openDialog, setOpenDialog] = useState(false);
     const [cursoToDelete, setCursoToDelete] = useState(null);
 
+    // estados para editar curso
+    const [openEditDialog, setOpenEditDialog] = useState(false);
+    const [cursoToEdit, setCursoToEdit] = useState(null);
+    const [editCursoName, setEditCursoName] = useState('');
+
+    const handleOpenEditDialog = (curso) => {
+        setCursoToEdit(curso);
+        setEditCursoName(curso.nombreCurso);
+        setOpenEditDialog(true);
+    };
+
+    const handleEditCurso = async () => {
+        if (!editCursoName.trim()) {
+            // Opcional: Mostrar un mensaje de error indicando que el nombre no puede estar vacío.
+            return;
+        }
+        try {
+            await editCurso(cursoToEdit._id, { nombreCurso: editCursoName });
+            console.log('Curso editado con éxito');
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
 
     const handleInputChange = (event) => {
-        setCursoName(event.target.value);
+        const { value } = event.target;
+        // Permite solo letras (mayúsculas y minúsculas) y espacios, y limita a 20 caracteres
+        if (/^[a-zA-Z\s]*$/.test(value) && value.length <= 20) {
+            setCursoName(value);
+        }
     };
 
     const handleSubmit = async () => {
         if (!cursoName) return;
         try {
             await addCurso({ nombreCurso: cursoName });
-            setSnackbarMessage('Curso agregado con éxito');
-            setSnackbarSeverity('success');
         } catch (error) {
-            setSnackbarMessage('Error al agregar el curso');
-            setSnackbarSeverity('error');
+            console.log(error);
         }
-        setSnackbarOpen(true);
         setCursoName(''); // Limpiar el campo después de agregar
     };
 
@@ -58,20 +82,11 @@ const CursoList = () => {
     const handleConfirmDelete = async () => {
         try {
             await deleteCurso(cursoToDelete);
-            setSnackbarMessage('Curso eliminado con éxito');
-            setSnackbarSeverity('success');
         } catch (error) {
-            setSnackbarMessage('Error al eliminar el curso');
-            setSnackbarSeverity('error');
+            console.log(error);
         }
-        setSnackbarOpen(true);
         setOpenDialog(false);
     };
-
-    const handleCloseSnackbar = () => {
-        setSnackbarOpen(false);
-    };
-
 
     return (
         <>
@@ -108,15 +123,24 @@ const CursoList = () => {
                     Agregar Curso Nuevo
                 </Button>
             </Box>
-            <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                    <TableHead>
+            <TableContainer component={Paper} sx={{ maxHeight: '300px', backgroundColor: "#1E3E66" }}>
+                <Table sx={{ minWidth: 650 }} size="small" aria-label="simple table" stickyHeader>
+                    <TableHead sx={{
+                        '.MuiTableCell-head': {
+                            color: 'white',
+                            backgroundColor: '#05172E', // Asegúrate de que esto se aplique correctamente
+                        },
+                    }}>
                         <TableRow>
                             <TableCell>Curso</TableCell>
                             <TableCell>Acciones</TableCell>
+                            <TableCell>Matriculas Por Curso</TableCell>
                         </TableRow>
                     </TableHead>
-                    <TableBody>
+                    <TableBody sx={{
+                        // Aplica estilos a todas las TableCell dentro de TableBody
+                        '.MuiTableCell-body': { color: 'white' },
+                    }}>
                         {cursos.map((curso) => (
                             <TableRow
                                 key={curso._id}
@@ -126,6 +150,7 @@ const CursoList = () => {
                                     {curso.nombreCurso}
                                 </TableCell>
                                 <TableCell>
+                                    <Button color="primary" onClick={() => handleOpenEditDialog(curso)}>Editar</Button>
                                     <Button color="error" onClick={() => handleOpenDialog(curso._id)}>Eliminar</Button>
                                 </TableCell>
                             </TableRow>
@@ -133,12 +158,29 @@ const CursoList = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <CustomizedSnackbars
-                open={snackbarOpen}
-                handleClose={handleCloseSnackbar}
-                message={snackbarMessage}
-                severity={snackbarSeverity}
-            />
+            <Dialog open={openEditDialog} onClose={() => setOpenEditDialog(false)}>
+                <DialogTitle>{"Editar Curso"}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Ingresa el nuevo nombre para el curso.
+                    </DialogContentText>
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        id="name"
+                        label="Nombre del Curso"
+                        type="text"
+                        fullWidth
+                        variant="outlined"
+                        value={editCursoName}
+                        onChange={(e) => setEditCursoName(e.target.value)}
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setOpenEditDialog(false)}>Cancelar</Button>
+                    <Button onClick={handleEditCurso}>Guardar Cambios</Button>
+                </DialogActions>
+            </Dialog>
             <Dialog
                 open={openDialog}
                 onClose={handleClose}
@@ -160,6 +202,12 @@ const CursoList = () => {
                     </Button>
                 </DialogActions>
             </Dialog>
+            <CustomizedSnackbars
+                open={snackbarOpen}
+                handleClose={handleCloseSnackbar}
+                message={snackbarMessage}
+                severity={snackbarSeverity}
+            />
         </>
     );
 }
